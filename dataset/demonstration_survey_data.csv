@@ -1,0 +1,351 @@
+Attendance_Level,Study_Environment,Parent_Education,Extracurricular,Learning_Style,Weekly_Study_Hours,Exam_Score,Performance_Band
+High (>=85%),Home/Moderate,Bachelor Degree,Not Participating,Visual,14.1,68,First Class
+Low (<70%),Noisy,High School,Participating,Visual,9.6,41,Needs Improvement
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Not Participating,Visual,10.6,65,First Class
+Moderate (70-84%),Quiet/Library,High School,Not Participating,Auditory,16.0,82,Distinction
+High (>=85%),Quiet/Library,High School,Not Participating,Auditory,15.1,87,Distinction
+High (>=85%),Home/Moderate,Postgraduate,Participating,Auditory,13.0,76,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Kinesthetic,21.5,86,Distinction
+Low (<70%),Home/Moderate,Postgraduate,Participating,Kinesthetic,3.8,39,Needs Improvement
+Moderate (70-84%),Noisy,High School,Participating,Auditory,13.1,68,First Class
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Not Participating,Kinesthetic,14.4,59,Second Class
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Visual,21.2,83,Distinction
+Low (<70%),Home/Moderate,Bachelor Degree,Not Participating,Visual,9.8,55,Second Class
+Low (<70%),Home/Moderate,Bachelor Degree,Not Participating,Visual,11.9,67,First Class
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Visual,17.7,85,Distinction
+High (>=85%),Noisy,Bachelor Degree,Participating,Auditory,20.3,82,Distinction
+High (>=85%),Quiet/Library,Postgraduate,Not Participating,Kinesthetic,15.7,88,Distinction
+High (>=85%),Noisy,Postgraduate,Participating,Visual,13.3,75,First Class
+Moderate (70-84%),Noisy,Postgraduate,Participating,Visual,14.9,73,First Class
+High (>=85%),Quiet/Library,High School,Participating,Auditory,17.5,85,Distinction
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Kinesthetic,13.0,77,First Class
+Moderate (70-84%),Quiet/Library,Postgraduate,Participating,Visual,14.8,82,Distinction
+High (>=85%),Quiet/Library,High School,Participating,Auditory,17.1,79,First Class
+High (>=85%),Quiet/Library,High School,Participating,Visual,21.2,97,Distinction
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Visual,15.5,87,Distinction
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Not Participating,Kinesthetic,16.0,61,Second Class
+Moderate (70-84%),Quiet/Library,Postgraduate,Participating,Kinesthetic,13.4,70,First Class
+High (>=85%),Noisy,High School,Participating,Visual,17.8,82,Distinction
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Not Participating,Kinesthetic,20.6,76,First Class
+Moderate (70-84%),Noisy,High School,Participating,Auditory,12.5,51,Second Class
+High (>=85%),Quiet/Library,High School,Not Participating,Kinesthetic,18.3,88,Distinction
+Moderate (70-84%),Quiet/Library,High School,Not Participating,Auditory,18.3,85,Distinction
+High (>=85%),Home/Moderate,Postgraduate,Participating,Auditory,19.5,84,Distinction
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Auditory,13.3,77,First Class
+Low (<70%),Noisy,Bachelor Degree,Not Participating,Auditory,2.1,35,Needs Improvement
+Low (<70%),Home/Moderate,Bachelor Degree,Not Participating,Visual,10.4,66,First Class
+Low (<70%),Noisy,Postgraduate,Participating,Visual,7.3,40,Needs Improvement
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Visual,20.0,90,Distinction
+High (>=85%),Quiet/Library,Postgraduate,Participating,Auditory,17.3,94,Distinction
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Not Participating,Visual,13.3,63,Second Class
+High (>=85%),Noisy,Bachelor Degree,Participating,Auditory,18.0,70,First Class
+High (>=85%),Noisy,Bachelor Degree,Not Participating,Kinesthetic,16.8,75,First Class
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Not Participating,Visual,16.9,70,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Auditory,14.6,89,Distinction
+Low (<70%),Home/Moderate,Bachelor Degree,Participating,Auditory,9.0,53,Second Class
+High (>=85%),Quiet/Library,High School,Participating,Kinesthetic,18.1,83,Distinction
+Moderate (70-84%),Noisy,Postgraduate,Participating,Visual,13.3,66,First Class
+High (>=85%),Noisy,Bachelor Degree,Participating,Auditory,19.1,74,First Class
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Participating,Kinesthetic,19.7,66,First Class
+Moderate (70-84%),Home/Moderate,Postgraduate,Not Participating,Kinesthetic,9.4,69,First Class
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Auditory,18.2,86,Distinction
+Low (<70%),Quiet/Library,High School,Participating,Auditory,15.3,68,First Class
+Moderate (70-84%),Noisy,Postgraduate,Not Participating,Auditory,7.9,55,Second Class
+Low (<70%),Home/Moderate,Bachelor Degree,Not Participating,Kinesthetic,7.5,48,Needs Improvement
+Low (<70%),Noisy,Bachelor Degree,Not Participating,Auditory,8.9,37,Needs Improvement
+Moderate (70-84%),Quiet/Library,High School,Not Participating,Visual,18.2,86,Distinction
+Low (<70%),Noisy,Bachelor Degree,Participating,Kinesthetic,8.1,35,Needs Improvement
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Auditory,17.9,97,Distinction
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Auditory,17.2,86,Distinction
+High (>=85%),Noisy,Postgraduate,Not Participating,Visual,14.6,65,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Auditory,18.4,87,Distinction
+High (>=85%),Quiet/Library,High School,Not Participating,Visual,14.9,80,Distinction
+High (>=85%),Noisy,Bachelor Degree,Participating,Auditory,14.5,77,First Class
+Low (<70%),Noisy,High School,Participating,Visual,10.0,55,Second Class
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Auditory,18.5,81,Distinction
+High (>=85%),Home/Moderate,High School,Not Participating,Kinesthetic,9.2,68,First Class
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Not Participating,Visual,13.6,52,Second Class
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Kinesthetic,23.0,83,Distinction
+Low (<70%),Quiet/Library,Postgraduate,Not Participating,Auditory,11.1,53,Second Class
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Kinesthetic,23.4,92,Distinction
+Low (<70%),Home/Moderate,Postgraduate,Participating,Kinesthetic,16.2,66,First Class
+Moderate (70-84%),Home/Moderate,High School,Not Participating,Auditory,16.1,73,First Class
+High (>=85%),Home/Moderate,Postgraduate,Not Participating,Auditory,15.8,86,Distinction
+High (>=85%),Quiet/Library,High School,Not Participating,Kinesthetic,16.2,81,Distinction
+Low (<70%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,8.5,48,Needs Improvement
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Not Participating,Visual,18.0,78,First Class
+Moderate (70-84%),Home/Moderate,High School,Not Participating,Auditory,16.7,65,First Class
+Moderate (70-84%),Home/Moderate,High School,Participating,Kinesthetic,10.5,55,Second Class
+High (>=85%),Noisy,Bachelor Degree,Participating,Kinesthetic,8.5,66,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Kinesthetic,17.1,87,Distinction
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Auditory,21.4,99,Distinction
+Low (<70%),Quiet/Library,Bachelor Degree,Not Participating,Kinesthetic,14.4,49,Needs Improvement
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Participating,Visual,16.3,74,First Class
+High (>=85%),Home/Moderate,High School,Participating,Auditory,13.2,78,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Visual,19.7,85,Distinction
+High (>=85%),Quiet/Library,High School,Not Participating,Visual,23.7,99,Distinction
+High (>=85%),Home/Moderate,Postgraduate,Participating,Visual,12.4,76,First Class
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Not Participating,Visual,10.4,74,First Class
+Moderate (70-84%),Noisy,Bachelor Degree,Participating,Auditory,11.4,59,Second Class
+Low (<70%),Home/Moderate,Bachelor Degree,Participating,Visual,5.2,46,Needs Improvement
+Moderate (70-84%),Quiet/Library,Postgraduate,Not Participating,Auditory,14.1,77,First Class
+High (>=85%),Quiet/Library,High School,Not Participating,Visual,8.4,78,First Class
+Moderate (70-84%),Noisy,Bachelor Degree,Participating,Visual,15.6,56,Second Class
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Not Participating,Visual,16.1,86,Distinction
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Not Participating,Visual,14.8,68,First Class
+Moderate (70-84%),Noisy,High School,Participating,Auditory,10.6,49,Needs Improvement
+Moderate (70-84%),Noisy,Postgraduate,Not Participating,Auditory,15.7,63,Second Class
+Moderate (70-84%),Noisy,Postgraduate,Not Participating,Auditory,10.7,56,Second Class
+High (>=85%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,12.3,72,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Visual,18.1,86,Distinction
+High (>=85%),Quiet/Library,Postgraduate,Not Participating,Kinesthetic,17.0,95,Distinction
+High (>=85%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,17.5,91,Distinction
+Moderate (70-84%),Home/Moderate,High School,Not Participating,Auditory,10.9,64,Second Class
+High (>=85%),Home/Moderate,Bachelor Degree,Not Participating,Visual,14.2,60,Second Class
+Moderate (70-84%),Noisy,Bachelor Degree,Not Participating,Visual,11.7,62,Second Class
+Low (<70%),Quiet/Library,Bachelor Degree,Not Participating,Visual,12.9,58,Second Class
+High (>=85%),Home/Moderate,Bachelor Degree,Not Participating,Visual,12.1,67,First Class
+High (>=85%),Quiet/Library,Postgraduate,Participating,Auditory,15.7,94,Distinction
+Moderate (70-84%),Home/Moderate,Postgraduate,Not Participating,Auditory,10.0,67,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Auditory,18.1,91,Distinction
+High (>=85%),Quiet/Library,High School,Participating,Kinesthetic,17.9,75,First Class
+High (>=85%),Quiet/Library,Postgraduate,Not Participating,Kinesthetic,14.4,82,Distinction
+High (>=85%),Home/Moderate,Postgraduate,Participating,Auditory,19.1,81,Distinction
+Low (<70%),Home/Moderate,High School,Participating,Kinesthetic,8.4,41,Needs Improvement
+Low (<70%),Home/Moderate,Postgraduate,Not Participating,Visual,12.3,53,Second Class
+Moderate (70-84%),Noisy,Postgraduate,Participating,Visual,10.7,58,Second Class
+Low (<70%),Quiet/Library,Bachelor Degree,Not Participating,Visual,10.4,51,Second Class
+Low (<70%),Quiet/Library,Bachelor Degree,Not Participating,Auditory,2.5,49,Needs Improvement
+High (>=85%),Noisy,Bachelor Degree,Participating,Kinesthetic,17.3,75,First Class
+Low (<70%),Quiet/Library,High School,Participating,Visual,5.3,39,Needs Improvement
+Moderate (70-84%),Noisy,Bachelor Degree,Participating,Kinesthetic,17.3,61,Second Class
+Low (<70%),Quiet/Library,Postgraduate,Not Participating,Visual,9.8,58,Second Class
+Low (<70%),Noisy,High School,Not Participating,Kinesthetic,11.4,40,Needs Improvement
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Visual,14.4,82,Distinction
+High (>=85%),Noisy,Bachelor Degree,Participating,Visual,11.2,68,First Class
+High (>=85%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,20.1,80,Distinction
+High (>=85%),Noisy,Postgraduate,Participating,Visual,14.2,74,First Class
+Low (<70%),Quiet/Library,Bachelor Degree,Not Participating,Visual,7.1,55,Second Class
+Low (<70%),Home/Moderate,Bachelor Degree,Participating,Visual,11.2,57,Second Class
+High (>=85%),Noisy,Bachelor Degree,Not Participating,Kinesthetic,22.0,70,First Class
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Participating,Auditory,11.5,67,First Class
+High (>=85%),Home/Moderate,High School,Not Participating,Visual,18.1,76,First Class
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Auditory,12.4,80,Distinction
+High (>=85%),Home/Moderate,High School,Not Participating,Auditory,15.7,87,Distinction
+High (>=85%),Home/Moderate,High School,Not Participating,Visual,21.5,94,Distinction
+Low (<70%),Home/Moderate,Bachelor Degree,Participating,Auditory,12.4,46,Needs Improvement
+High (>=85%),Noisy,Bachelor Degree,Not Participating,Visual,16.5,72,First Class
+Moderate (70-84%),Quiet/Library,Postgraduate,Not Participating,Visual,13.1,76,First Class
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Participating,Auditory,16.0,67,First Class
+High (>=85%),Noisy,Bachelor Degree,Participating,Visual,12.8,69,First Class
+Low (<70%),Noisy,Bachelor Degree,Not Participating,Auditory,8.1,35,Needs Improvement
+Low (<70%),Home/Moderate,High School,Participating,Auditory,10.5,66,First Class
+High (>=85%),Home/Moderate,Bachelor Degree,Not Participating,Visual,19.5,80,Distinction
+Moderate (70-84%),Quiet/Library,High School,Participating,Auditory,15.5,72,First Class
+High (>=85%),Quiet/Library,Postgraduate,Not Participating,Visual,16.9,79,First Class
+High (>=85%),Home/Moderate,High School,Participating,Kinesthetic,18.1,78,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Auditory,25.9,97,Distinction
+Moderate (70-84%),Home/Moderate,High School,Not Participating,Kinesthetic,14.6,69,First Class
+Moderate (70-84%),Quiet/Library,Postgraduate,Not Participating,Auditory,13.9,74,First Class
+High (>=85%),Noisy,Bachelor Degree,Not Participating,Visual,14.1,74,First Class
+High (>=85%),Noisy,Bachelor Degree,Participating,Auditory,17.9,73,First Class
+Low (<70%),Home/Moderate,High School,Not Participating,Kinesthetic,11.0,41,Needs Improvement
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Auditory,17.7,90,Distinction
+High (>=85%),Quiet/Library,High School,Participating,Kinesthetic,12.7,71,First Class
+Moderate (70-84%),Noisy,Postgraduate,Participating,Kinesthetic,13.3,67,First Class
+Low (<70%),Home/Moderate,High School,Participating,Visual,7.1,42,Needs Improvement
+High (>=85%),Quiet/Library,High School,Not Participating,Visual,20.2,94,Distinction
+Moderate (70-84%),Noisy,High School,Not Participating,Auditory,10.1,55,Second Class
+Moderate (70-84%),Noisy,Bachelor Degree,Participating,Auditory,8.3,53,Second Class
+High (>=85%),Noisy,Bachelor Degree,Participating,Kinesthetic,16.0,84,Distinction
+Moderate (70-84%),Home/Moderate,High School,Not Participating,Kinesthetic,18.6,74,First Class
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Visual,16.3,87,Distinction
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Participating,Visual,13.5,68,First Class
+Moderate (70-84%),Noisy,Bachelor Degree,Participating,Kinesthetic,10.6,49,Needs Improvement
+Moderate (70-84%),Noisy,Bachelor Degree,Not Participating,Visual,12.4,47,Needs Improvement
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Kinesthetic,17.3,84,Distinction
+Low (<70%),Quiet/Library,Bachelor Degree,Participating,Auditory,11.4,60,Second Class
+High (>=85%),Quiet/Library,High School,Participating,Auditory,17.2,92,Distinction
+High (>=85%),Noisy,High School,Not Participating,Visual,12.2,78,First Class
+High (>=85%),Noisy,Postgraduate,Not Participating,Auditory,19.4,73,First Class
+Moderate (70-84%),Quiet/Library,Postgraduate,Participating,Auditory,11.1,64,Second Class
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,14.2,69,First Class
+High (>=85%),Quiet/Library,High School,Participating,Visual,19.2,90,Distinction
+Moderate (70-84%),Noisy,Bachelor Degree,Participating,Auditory,15.2,62,Second Class
+High (>=85%),Noisy,Bachelor Degree,Not Participating,Kinesthetic,14.4,75,First Class
+Moderate (70-84%),Noisy,High School,Participating,Visual,17.1,62,Second Class
+High (>=85%),Home/Moderate,High School,Not Participating,Visual,13.2,78,First Class
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Participating,Visual,14.3,73,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Auditory,16.1,70,First Class
+Low (<70%),Quiet/Library,High School,Not Participating,Auditory,10.4,53,Second Class
+High (>=85%),Noisy,High School,Participating,Auditory,15.3,74,First Class
+High (>=85%),Noisy,High School,Not Participating,Visual,14.3,77,First Class
+High (>=85%),Noisy,Bachelor Degree,Participating,Visual,14.6,76,First Class
+Low (<70%),Noisy,High School,Participating,Auditory,10.9,47,Needs Improvement
+Low (<70%),Home/Moderate,High School,Participating,Auditory,11.1,42,Needs Improvement
+High (>=85%),Home/Moderate,Bachelor Degree,Not Participating,Kinesthetic,17.0,75,First Class
+Moderate (70-84%),Noisy,High School,Participating,Visual,16.4,59,Second Class
+Low (<70%),Noisy,Bachelor Degree,Not Participating,Auditory,7.1,40,Needs Improvement
+Moderate (70-84%),Quiet/Library,High School,Participating,Auditory,13.6,72,First Class
+Moderate (70-84%),Home/Moderate,High School,Not Participating,Auditory,10.2,71,First Class
+High (>=85%),Quiet/Library,High School,Participating,Auditory,13.1,79,First Class
+High (>=85%),Noisy,Bachelor Degree,Not Participating,Auditory,20.1,79,First Class
+Low (<70%),Home/Moderate,Postgraduate,Not Participating,Kinesthetic,9.4,49,Needs Improvement
+Low (<70%),Quiet/Library,Postgraduate,Not Participating,Visual,14.5,58,Second Class
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Not Participating,Visual,12.0,57,Second Class
+High (>=85%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,18.7,87,Distinction
+High (>=85%),Quiet/Library,High School,Not Participating,Auditory,20.3,89,Distinction
+Moderate (70-84%),Quiet/Library,High School,Participating,Visual,11.9,51,Second Class
+Low (<70%),Home/Moderate,Postgraduate,Participating,Visual,4.2,44,Needs Improvement
+Low (<70%),Home/Moderate,High School,Not Participating,Visual,14.2,54,Second Class
+Moderate (70-84%),Home/Moderate,High School,Not Participating,Kinesthetic,15.0,63,Second Class
+Moderate (70-84%),Home/Moderate,High School,Not Participating,Visual,18.7,77,First Class
+High (>=85%),Noisy,High School,Participating,Visual,18.9,85,Distinction
+High (>=85%),Home/Moderate,High School,Participating,Visual,12.0,80,Distinction
+Low (<70%),Home/Moderate,Bachelor Degree,Participating,Visual,7.5,48,Needs Improvement
+Moderate (70-84%),Noisy,Bachelor Degree,Not Participating,Visual,14.4,74,First Class
+High (>=85%),Home/Moderate,Postgraduate,Participating,Auditory,17.4,80,Distinction
+High (>=85%),Quiet/Library,Postgraduate,Participating,Visual,21.8,88,Distinction
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Participating,Kinesthetic,14.1,68,First Class
+High (>=85%),Home/Moderate,High School,Participating,Visual,11.5,74,First Class
+High (>=85%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,14.9,75,First Class
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Participating,Kinesthetic,10.5,61,Second Class
+Moderate (70-84%),Quiet/Library,High School,Not Participating,Auditory,12.0,61,Second Class
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Participating,Auditory,13.9,60,Second Class
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Visual,14.0,88,Distinction
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Participating,Visual,12.1,70,First Class
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Auditory,19.8,82,Distinction
+High (>=85%),Quiet/Library,High School,Participating,Kinesthetic,14.7,72,First Class
+Moderate (70-84%),Home/Moderate,Postgraduate,Participating,Auditory,14.3,63,Second Class
+Moderate (70-84%),Noisy,Bachelor Degree,Not Participating,Auditory,9.7,58,Second Class
+Low (<70%),Quiet/Library,High School,Participating,Auditory,9.0,55,Second Class
+Moderate (70-84%),Home/Moderate,Postgraduate,Not Participating,Auditory,14.7,73,First Class
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Not Participating,Visual,15.8,80,Distinction
+High (>=85%),Quiet/Library,Postgraduate,Not Participating,Auditory,12.6,82,Distinction
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Kinesthetic,9.0,65,First Class
+High (>=85%),Noisy,Bachelor Degree,Participating,Visual,16.1,74,First Class
+High (>=85%),Noisy,High School,Participating,Auditory,14.0,59,Second Class
+Low (<70%),Quiet/Library,High School,Participating,Visual,11.2,54,Second Class
+High (>=85%),Noisy,Bachelor Degree,Not Participating,Auditory,19.0,84,Distinction
+Low (<70%),Home/Moderate,Bachelor Degree,Participating,Visual,7.2,47,Needs Improvement
+Moderate (70-84%),Quiet/Library,High School,Participating,Auditory,9.2,55,Second Class
+Moderate (70-84%),Home/Moderate,High School,Not Participating,Kinesthetic,10.1,63,Second Class
+Moderate (70-84%),Noisy,Postgraduate,Not Participating,Visual,11.2,55,Second Class
+Moderate (70-84%),Home/Moderate,Postgraduate,Not Participating,Auditory,11.0,63,Second Class
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Participating,Kinesthetic,15.9,74,First Class
+High (>=85%),Home/Moderate,High School,Participating,Kinesthetic,17.7,71,First Class
+Moderate (70-84%),Quiet/Library,High School,Participating,Visual,14.4,72,First Class
+High (>=85%),Quiet/Library,High School,Participating,Visual,19.2,93,Distinction
+High (>=85%),Quiet/Library,Postgraduate,Participating,Visual,19.7,95,Distinction
+Moderate (70-84%),Quiet/Library,High School,Participating,Kinesthetic,14.5,68,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Kinesthetic,15.9,78,First Class
+Low (<70%),Quiet/Library,High School,Participating,Auditory,10.9,57,Second Class
+Low (<70%),Home/Moderate,Bachelor Degree,Participating,Kinesthetic,4.9,48,Needs Improvement
+Low (<70%),Quiet/Library,Bachelor Degree,Not Participating,Auditory,10.8,53,Second Class
+High (>=85%),Quiet/Library,Postgraduate,Not Participating,Auditory,15.2,89,Distinction
+High (>=85%),Noisy,High School,Not Participating,Visual,14.2,82,Distinction
+Low (<70%),Home/Moderate,High School,Participating,Kinesthetic,12.5,57,Second Class
+High (>=85%),Home/Moderate,High School,Participating,Visual,19.2,74,First Class
+Low (<70%),Quiet/Library,Postgraduate,Participating,Kinesthetic,11.9,48,Needs Improvement
+Low (<70%),Quiet/Library,Postgraduate,Not Participating,Kinesthetic,11.5,66,First Class
+Low (<70%),Quiet/Library,Bachelor Degree,Not Participating,Auditory,13.2,69,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Visual,18.7,90,Distinction
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Visual,19.2,86,Distinction
+Low (<70%),Quiet/Library,High School,Participating,Visual,8.4,64,Second Class
+High (>=85%),Quiet/Library,Postgraduate,Participating,Visual,15.4,98,Distinction
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Visual,22.0,96,Distinction
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Not Participating,Kinesthetic,10.2,56,Second Class
+Low (<70%),Quiet/Library,Bachelor Degree,Not Participating,Auditory,9.3,49,Needs Improvement
+Moderate (70-84%),Quiet/Library,High School,Not Participating,Visual,15.9,70,First Class
+Moderate (70-84%),Home/Moderate,High School,Participating,Visual,18.5,75,First Class
+High (>=85%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,14.5,75,First Class
+Moderate (70-84%),Quiet/Library,High School,Participating,Auditory,9.8,59,Second Class
+Low (<70%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,15.4,57,Second Class
+High (>=85%),Home/Moderate,High School,Participating,Kinesthetic,12.5,70,First Class
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Not Participating,Auditory,15.1,72,First Class
+Low (<70%),Noisy,High School,Participating,Kinesthetic,8.1,35,Needs Improvement
+Moderate (70-84%),Noisy,Bachelor Degree,Not Participating,Kinesthetic,10.6,53,Second Class
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Participating,Visual,15.4,77,First Class
+Moderate (70-84%),Quiet/Library,High School,Not Participating,Kinesthetic,13.5,69,First Class
+High (>=85%),Noisy,Bachelor Degree,Participating,Visual,13.3,71,First Class
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Kinesthetic,19.4,77,First Class
+Low (<70%),Quiet/Library,Bachelor Degree,Participating,Visual,11.7,62,Second Class
+Low (<70%),Quiet/Library,Postgraduate,Participating,Kinesthetic,11.8,63,Second Class
+Low (<70%),Quiet/Library,Bachelor Degree,Not Participating,Kinesthetic,14.3,67,First Class
+Low (<70%),Home/Moderate,High School,Participating,Kinesthetic,10.9,49,Needs Improvement
+Moderate (70-84%),Home/Moderate,High School,Not Participating,Kinesthetic,7.6,52,Second Class
+Moderate (70-84%),Quiet/Library,High School,Participating,Visual,13.0,63,Second Class
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Participating,Visual,21.2,78,First Class
+Moderate (70-84%),Home/Moderate,High School,Not Participating,Auditory,15.3,70,First Class
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Not Participating,Visual,10.2,58,Second Class
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Participating,Auditory,11.6,66,First Class
+Low (<70%),Home/Moderate,Bachelor Degree,Not Participating,Visual,8.4,48,Needs Improvement
+High (>=85%),Noisy,Bachelor Degree,Not Participating,Kinesthetic,13.1,56,Second Class
+High (>=85%),Home/Moderate,High School,Participating,Auditory,14.8,71,First Class
+High (>=85%),Home/Moderate,High School,Not Participating,Kinesthetic,16.9,96,Distinction
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Not Participating,Visual,9.7,52,Second Class
+High (>=85%),Home/Moderate,Bachelor Degree,Not Participating,Kinesthetic,22.5,88,Distinction
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Participating,Kinesthetic,12.2,55,Second Class
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Not Participating,Auditory,13.5,69,First Class
+High (>=85%),Quiet/Library,High School,Participating,Auditory,16.0,99,Distinction
+Moderate (70-84%),Quiet/Library,Postgraduate,Participating,Kinesthetic,16.2,75,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Visual,19.4,96,Distinction
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Auditory,17.0,90,Distinction
+Low (<70%),Quiet/Library,High School,Not Participating,Visual,11.1,60,Second Class
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Visual,17.5,92,Distinction
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Visual,18.1,91,Distinction
+Moderate (70-84%),Noisy,High School,Participating,Visual,13.1,66,First Class
+Moderate (70-84%),Home/Moderate,Postgraduate,Participating,Visual,13.2,50,Second Class
+High (>=85%),Home/Moderate,High School,Participating,Visual,12.8,72,First Class
+Moderate (70-84%),Home/Moderate,Postgraduate,Not Participating,Kinesthetic,15.4,60,Second Class
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Auditory,20.2,62,Second Class
+High (>=85%),Quiet/Library,High School,Not Participating,Kinesthetic,19.8,96,Distinction
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,13.5,64,Second Class
+Moderate (70-84%),Home/Moderate,Postgraduate,Participating,Visual,15.4,69,First Class
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,14.0,69,First Class
+Moderate (70-84%),Home/Moderate,Postgraduate,Participating,Auditory,12.2,63,Second Class
+Low (<70%),Quiet/Library,Bachelor Degree,Not Participating,Visual,14.0,56,Second Class
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Not Participating,Auditory,8.0,77,First Class
+High (>=85%),Quiet/Library,Postgraduate,Participating,Visual,19.1,93,Distinction
+Moderate (70-84%),Home/Moderate,High School,Participating,Auditory,11.8,64,Second Class
+High (>=85%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,20.0,88,Distinction
+High (>=85%),Quiet/Library,High School,Not Participating,Visual,17.2,81,Distinction
+High (>=85%),Noisy,Postgraduate,Participating,Visual,9.4,64,Second Class
+High (>=85%),Home/Moderate,Postgraduate,Not Participating,Kinesthetic,17.0,74,First Class
+Low (<70%),Quiet/Library,High School,Not Participating,Auditory,14.3,65,First Class
+Low (<70%),Quiet/Library,Bachelor Degree,Not Participating,Visual,13.9,63,Second Class
+Moderate (70-84%),Quiet/Library,Postgraduate,Participating,Kinesthetic,14.5,67,First Class
+High (>=85%),Quiet/Library,High School,Not Participating,Visual,20.7,94,Distinction
+High (>=85%),Quiet/Library,Bachelor Degree,Not Participating,Auditory,21.2,97,Distinction
+High (>=85%),Quiet/Library,Postgraduate,Participating,Kinesthetic,20.7,90,Distinction
+High (>=85%),Quiet/Library,High School,Participating,Visual,15.2,87,Distinction
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Not Participating,Visual,12.3,71,First Class
+Moderate (70-84%),Noisy,High School,Participating,Visual,9.8,51,Second Class
+Moderate (70-84%),Quiet/Library,Postgraduate,Not Participating,Visual,12.4,66,First Class
+High (>=85%),Home/Moderate,Postgraduate,Participating,Visual,13.3,64,Second Class
+Low (<70%),Home/Moderate,Postgraduate,Participating,Auditory,8.0,50,Second Class
+Moderate (70-84%),Noisy,Bachelor Degree,Not Participating,Visual,14.7,62,Second Class
+Moderate (70-84%),Quiet/Library,Postgraduate,Participating,Auditory,10.1,60,Second Class
+Moderate (70-84%),Quiet/Library,Postgraduate,Participating,Kinesthetic,10.9,66,First Class
+High (>=85%),Noisy,Bachelor Degree,Participating,Kinesthetic,15.1,78,First Class
+High (>=85%),Noisy,Postgraduate,Not Participating,Auditory,8.8,69,First Class
+High (>=85%),Noisy,High School,Participating,Visual,12.3,77,First Class
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Participating,Auditory,15.3,73,First Class
+High (>=85%),Quiet/Library,High School,Not Participating,Auditory,16.3,98,Distinction
+High (>=85%),Home/Moderate,High School,Participating,Auditory,11.5,55,Second Class
+High (>=85%),Noisy,High School,Not Participating,Visual,20.3,86,Distinction
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Kinesthetic,15.0,81,Distinction
+Low (<70%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,8.8,56,Second Class
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Participating,Visual,16.5,76,First Class
+Moderate (70-84%),Home/Moderate,High School,Not Participating,Visual,21.5,73,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Auditory,16.9,91,Distinction
+Moderate (70-84%),Quiet/Library,Bachelor Degree,Participating,Kinesthetic,10.0,72,First Class
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Participating,Auditory,10.8,59,Second Class
+High (>=85%),Home/Moderate,Bachelor Degree,Participating,Kinesthetic,15.4,75,First Class
+High (>=85%),Quiet/Library,Bachelor Degree,Participating,Visual,19.0,81,Distinction
+High (>=85%),Quiet/Library,Postgraduate,Participating,Auditory,17.6,88,Distinction
+Moderate (70-84%),Home/Moderate,Bachelor Degree,Not Participating,Auditory,12.8,62,Second Class
+Moderate (70-84%),Quiet/Library,High School,Participating,Visual,13.6,79,First Class
+High (>=85%),Home/Moderate,High School,Participating,Visual,14.0,74,First Class
+High (>=85%),Quiet/Library,Postgraduate,Not Participating,Kinesthetic,13.4,77,First Class
+Moderate (70-84%),Home/Moderate,High School,Not Participating,Visual,14.4,61,Second Class
