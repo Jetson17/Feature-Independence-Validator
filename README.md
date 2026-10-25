@@ -380,22 +380,3 @@ git commit -m "Complete project audit, add test suite, and update documentation"
 ```powershell
 git push origin main
 ```
-
----
-
-## Academic Project Metadata
-
-- **Course:** B.Tech Computer Science & Engineering | Mathematics & Statistics
-- **Project Title:** Feature Independence Validation Using Chi-Square Test
-- **Student Name:** `[Insert Student Name]`
-- **Register / Roll Number:** `[Insert Roll / Register Number]`
-- **Faculty Guide / Mentor:** `[Insert Faculty Guide Name]`
-- **Department:** Department of Computer Science & Engineering
-- **Institution:** `[Insert College / University Name]`
-- **Academic Year:** `2025–2026`
-
----
-
-## License
-
-This repository is submitted for college course evaluation. It currently has no explicit open-source license. All rights are reserved by the author(s).
