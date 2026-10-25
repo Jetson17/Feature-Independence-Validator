@@ -4,25 +4,34 @@ venv/
 env/
 ENV/
 
-# Python cache
+# Python cache & bytecode
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 
-# Project backups
+# Project backups & legacy models
 _backup_original/
 
-# IDE files
+# IDE & Editor files
 .vscode/
 .idea/
+*.swp
+*.swo
 
 # Streamlit temporary config/cache
 .streamlit/
 
-# OS files
+# OS-generated files
 Thumbs.db
 ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 .DS_Store
+
+# Temporary exported reports & data (preserves dataset/ folder)
+results/
+ChiSquare_Report_*.txt
+Contingency_Table_*.csv
+Expected_Frequencies_*.csv
+dataset_export_*.csv

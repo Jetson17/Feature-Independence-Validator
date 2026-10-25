@@ -1,229 +1,401 @@
-# Feature Independence Validation Using Chi-Square Test in Machine Learning Models
+# Feature Independence Validation Using Chi-Square Test
 
-A comprehensive, beginner-friendly, and interactive Streamlit web application designed for a second-year Computer Science and Engineering (CSE) college micro-project in Mathematics / Statistics for Machine Learning.
-
----
-
-## 📌 Project Overview
-
-In data preprocessing and feature engineering for machine learning, understanding statistical associations between categorical features is critical. Introducing correlated or redundant features can degrade classification performance, increase computational overhead, and introduce multicollinearity. 
-
-This project provides an interactive graphical interface to validate **feature independence** using Pearson's **Chi-Square ($\chi^2$) Test of Independence**, cross-tabulation contingency tables, Cochran's assumption validation, and Cramer's V effect size computation.
+An interactive statistical computing web application developed for the B.Tech Computer Science and Engineering (CSE) Mathematics and Statistics micro-project. Built with Python, Streamlit, Pandas, NumPy, SciPy, and Plotly, this tool validates the statistical independence of categorical features using Pearson's Chi-Square Test of Independence ($\chi^2$).
 
 ---
 
-## 🎯 Aim and Objectives
+## 1. Project Title and Overview
 
-### Aim
-To design, implement, and evaluate an interactive statistical web application that validates the independence of categorical attributes in academic datasets using the Chi-Square test, assisting in feature selection and redundancy elimination for machine learning models.
+**Title:** Feature Independence Validation Using Chi-Square Test  
+**Degree:** B.Tech Computer Science & Engineering (Mathematics & Statistics Micro-Project)  
 
-### Objectives
-1. **Contingency Analysis**: Automatically construct observed joint frequency distributions and calculate marginal row/column proportions using `pandas.crosstab()`.
-2. **Feature Binning**: Provide dynamic, user-configurable discretization methods (custom cutoffs, quantile splits, and equal-width intervals) to convert numerical continuous attributes into meaningful discrete categories.
-3. **Hypothesis Testing**: Implement Pearson's Chi-Square Test using `scipy.stats.chi2_contingency()`, computing the test statistic ($\chi^2$), p-value, degrees of freedom ($df$), and critical values.
-4. **Assumption Audit (Cochran's Rule)**: Explicitly evaluate validity assumptions ($\ge 80\%$ of cells having expected count $\ge 5$, and no cell $< 1$) and alert users to small-sample approximation risks.
-5. **Association Strength**: Compute **Cramer's V** to quantify practical effect size independently of sample size.
-6. **Interactive Visualization**: Render responsive, interactive Plotly visualizations (Grouped Bar Charts and Contingency Heatmaps).
-7. **Report Generation**: Export comprehensive mathematical reports and cross-tabulation CSV files for documentation.
+In statistical computing and data analysis, understanding how categorical features relate to one another is essential. When selecting features for predictive models or exploratory studies, researchers must verify whether two variables vary independently or exhibit statistically significant association.
+
+This application provides an interactive web dashboard where users can load built-in academic datasets or upload custom CSV files, construct contingency cross-tabulation tables, discretize continuous numeric attributes, compute Pearson Chi-Square test statistics, evaluate Cochran's validity criteria, calculate Cramér's V effect size, interact with dynamic visualizations, and export comprehensive audit reports.
 
 ---
 
-## 📐 Statistical Theory & Mathematical Formulations
+## 2. Problem Statement
 
-### 1. Hypotheses Formulation
-- **Null Hypothesis ($H_0$):** The two categorical variables are **statistically independent** (no relationship in category distributions).
-- **Alternative Hypothesis ($H_1$):** The two categorical variables are **associated / dependent** (a statistically significant relationship exists).
+In academic and industrial machine learning workflows:
+1. **Feature Redundancy:** Introducing mutually dependent or redundant categorical features increases dimensionality, inflates variance, and complicates model interpretability.
+2. **Arbitrary Feature Selection:** Variables are frequently fed into machine learning pipelines without mathematical verification of their statistical association.
+3. **Small-Sample Approximation Breakdown:** Many practitioners compute asymptotic Chi-Square statistics without checking sample-size constraints (such as Cochran's rule), leading to unreliable conclusions when sparse expected frequencies inflate Type I error rates.
 
-### 2. Contingency Table (Cross-Tabulation)
-For two categorical variables $X$ (with $r$ rows) and $Y$ (with $c$ columns), let $O_{ij}$ denote the observed frequency in cell $(i, j)$:
+This project addresses these challenges by offering an automated, interactive statistical validation engine that couples hypothesis testing with diagnostic assumption audits and effect size measurements.
 
-$$\text{Total Sample Size } N = \sum_{i=1}^{r} \sum_{j=1}^{c} O_{ij}$$
+---
 
-Row totals $R_i = \sum_{j=1}^{c} O_{ij}$ and Column totals $C_j = \sum_{i=1}^{r} O_{ij}$.
+## 3. Objectives
 
-### 3. Expected Frequencies ($E_{ij}$)
-Under the assumption of independence ($H_0$), the probability of an observation falling into cell $(i, j)$ is $P(X = i) \times P(Y = j)$. The expected cell count is:
+1. **Hypothesis Testing:** Formulate and test statistical independence ($H_0$) against mutual association ($H_1$) for categorical feature pairs.
+2. **Feature Discretization:** Provide dynamic binning strategies (custom cutoffs, quantile splits, and equal-width intervals) to convert continuous numerical attributes into discrete categories.
+3. **Assumption Auditing:** Explicitly audit Cochran's (1954) criteria ($E_{ij} \ge 1.0$ and $\le 20\%$ cells $< 5.0$) and alert users to small-sample approximation risks.
+4. **Effect Size Quantification:** Measure the practical strength of association using Cramér's V to decouple sample size effects from statistical significance.
+5. **Interactive Visualization & Export:** Render reactive Plotly distribution charts and contingency heatmaps, and export publication-ready plaintext reports and CSV matrices.
 
+---
+
+## 4. Technologies and Libraries Used
+
+The application is implemented using Python and a minimal set of direct libraries:
+
+| Technology | Purpose & Role |
+| :--- | :--- |
+| **Python (3.10+)** | Core programming language for data structures, statistical logic, and testing routines. |
+| **Streamlit** | High-performance reactive web framework for rendering the interactive dashboard and controls. |
+| **Pandas** | Tabular data manipulation, CSV ingestion, missing-value filtering, and cross-tabulation (`pd.crosstab`). |
+| **NumPy** | Numerical array processing, percentile calculations, and residual computations. |
+| **SciPy (`scipy.stats`)** | Scientific computing engine providing `chi2_contingency`, `chi2.ppf` (critical value), and `fisher_exact`. |
+| **Plotly** | Visualization engine generating interactive grouped bar charts and contingency heatmaps. |
+
+> **Machine Learning Architecture Note:** This application does **not** train or deploy any machine learning predictive model (no scikit-learn classifiers, regression models, or neural networks). It is strictly a statistical hypothesis-testing and feature-independence diagnostic engine.
+
+---
+
+## 5. Features of the Application
+
+- **Dual Preloaded Datasets & Custom Upload:** Toggle between an original 42-student academic record dataset, a 350-student demonstration survey dataset, or upload any user-supplied CSV file.
+- **Configurable Significance Level ($\alpha$):** Choose between $\alpha = 0.01$, $\alpha = 0.05$ (standard), or $\alpha = 0.10$ with instant recalculation.
+- **Variable Selection & Auto-Categorization:** Select any two distinct columns ($X \neq Y$). Numerical variables are automatically detected and converted into discrete categories.
+- **Flexible Numerical Binning:** Choose between domain-based cutoffs, quantile divisions (median, tertiles, quartiles), or equal-width intervals.
+- **Category Consolidation:** Optional toggle to combine sparse categories with counts $< 2$ into an `"Other"` group to alleviate sparse expected cells.
+- **Contingency Tables:** View raw observed counts with marginal totals ($R_i, C_j, N$) or normalized conditional distributions (row %, column %, table %).
+- **Hypothesis Testing Engine:** Computes $\chi^2$, degrees of freedom ($df$), $p$-value, critical threshold ($\chi^2_{\text{crit}}$), and displays plain-English decisions.
+- **Cochran's Assumption Audit:** Evaluates whether cell expectations meet asymptotic criteria and recommends Fisher's Exact Test for $2 \times 2$ tables when violated.
+- **Standardized Pearson Residuals:** Highlights individual cell combinations that deviate significantly ($|r_{ij}| > 2.0$) from theoretical independence.
+- **Cramér's V Effect Size:** Quantifies association strength on a normalized scale ($0$ to $1$) with dimensional benchmark interpretations.
+- **Interactive Visualizations:** Grouped bar charts (frequency vs. percentage) and multi-metric heatmaps (observed, expected, residuals).
+- **Comprehensive Exports:** Download full analysis reports (`.txt`), observed contingency tables (`.csv`), and expected frequencies matrices (`.csv`).
+
+---
+
+## 6. Explanation of the Chi-Square Test of Independence
+
+Pearson's Chi-Square Test of Independence is a non-parametric statistical technique used to determine whether there is a significant association between two nominal or ordinal categorical variables.
+
+Under the assumption of independence, the probability that an observation falls into any given cell of a two-way cross-tabulation is simply the product of its marginal probabilities:
+$$P(X = i \text{ and } Y = j) = P(X = i) \times P(Y = j)$$
+
+The test evaluates whether the observed cell frequencies ($O_{ij}$) deviate from theoretical frequencies ($E_{ij}$) expected under random chance by more than would be anticipated from sampling variability alone.
+
+---
+
+## 7. Null Hypothesis and Alternative Hypothesis
+
+For any two categorical attributes $X$ (with $r$ rows) and $Y$ (with $c$ columns):
+
+- **Null Hypothesis ($H_0$):** Variables $X$ and $Y$ are **statistically independent**.
+  - *Interpretation:* Knowledge of category membership in $X$ provides no information regarding category membership in $Y$.
+- **Alternative Hypothesis ($H_1$):** Variables $X$ and $Y$ are **statistically associated / dependent**.
+  - *Interpretation:* Category membership in $X$ is significantly related to category membership in $Y$.
+
+---
+
+## 8. Mathematical Formulations
+
+### 1. Observed Margins and Sample Size
+For an $r \times c$ contingency table with observed counts $O_{ij}$:
+- Row totals: $R_i = \sum_{j=1}^c O_{ij}$
+- Column totals: $C_j = \sum_{i=1}^r O_{ij}$
+- Total sample size: $N = \sum_{i=1}^r \sum_{j=1}^c O_{ij}$
+
+### 2. Expected Frequencies ($E_{ij}$)
+Under $H_0$, the expected frequency for cell $(i, j)$ is:
 $$E_{ij} = \frac{R_i \times C_j}{N}$$
 
-### 4. Chi-Square Test Statistic ($\chi^2$)
-Pearson's test statistic measures the sum of squared standardized deviations:
+### 3. Pearson Chi-Square Statistic ($\chi^2$)
+Measures the sum of normalized squared deviations across all cells:
+$$\chi^2 = \sum_{i=1}^r \sum_{j=1}^c \frac{(O_{ij} - E_{ij})^2}{E_{ij}}$$
 
-$$\chi^2 = \sum_{i=1}^{r} \sum_{j=1}^{c} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}$$
-
-Under $H_0$, $\chi^2$ asymptotically follows a Chi-Square distribution with degrees of freedom:
-
+### 4. Degrees of Freedom ($df$)
 $$df = (r - 1) \times (c - 1)$$
 
-### 5. Decision Rule
-At a user-selected significance level $\alpha$ (e.g., $0.01$, $0.05$, $0.10$):
-- **If $p\text{-value} < \alpha$ (or $\chi^2 > \chi^2_{\text{critical}}$):** **Reject $H_0$**. Statistically significant evidence of association.
-- **If $p\text{-value} \ge \alpha$ (or $\chi^2 \le \chi^2_{\text{critical}}$):** **Fail to Reject $H_0$**. Insufficient evidence to establish association.
+### 5. P-Value & Decision Rule
+Let $F_{\chi^2, df}$ denote the cumulative distribution function of a Chi-Square distribution with $df$ degrees of freedom:
+$$p\text{-value} = 1 - F_{\chi^2, df}(\chi^2)$$
 
-> **Important Academic Caveats:**
-> - Failing to reject $H_0$ does **not** prove absolute independence; it merely means any existing association was undetectable given this sample size.
-> - A statistically significant association does **not** imply a cause-and-effect relationship (*Correlation $\neq$ Causation*).
+- **If $p\text{-value} < \alpha$ (or $\chi^2 > \chi^2_{\text{crit}}$):** **Reject $H_0$**. Conclude there is statistically significant evidence of association.
+- **If $p\text{-value} \ge \alpha$ (or $\chi^2 \le \chi^2_{\text{crit}}$):** **Fail to Reject $H_0$**. Conclude the observed variation is consistent with random chance.
 
-### 6. Cochran's Rule (1954) for Validity
-The Chi-Square test is an asymptotic large-sample approximation. The test is valid when:
-1. No expected frequency is less than 1.0 ($E_{ij} \ge 1$).
-2. No more than 20% of the cells have expected frequencies less than 5.0.
+### 6. Standardized Pearson Residuals ($r_{ij}$)
+$$r_{ij} = \frac{O_{ij} - E_{ij}}{\sqrt{E_{ij}}}$$
+Cells with $|r_{ij}| > 2.0$ indicate statistically significant deviation at approximately the $95\%$ confidence level.
 
-### 7. Effect Size: Cramer's V
-Because a large sample size ($N$) can make trivial associations statistically significant, Cramer's V measures the practical magnitude of the association:
-
+### 7. Effect Size: Cramér's V
+To evaluate practical magnitude independent of sample size $N$:
 $$V = \sqrt{\frac{\chi^2}{N \times \min(r - 1, c - 1)}}$$
 
-| Value of $V$ (for $df^* = 1$) | Association Strength |
-| :--- | :--- |
-| $< 0.10$ | Negligible / Trivial |
-| $0.10 \le V < 0.30$ | Small / Weak |
-| $0.30 \le V < 0.50$ | Moderate |
-| $\ge 0.50$ | Strong / Large |
+| Association Strength | $k = 1$ ($2 \times 2$) | $k = 2$ ($3 \times 3$) | $k \ge 3$ (Larger) |
+| :--- | :--- | :--- | :--- |
+| **Negligible** | $V < 0.10$ | $V < 0.07$ | $V < 0.06$ |
+| **Weak** | $0.10 \le V < 0.30$ | $0.07 \le V < 0.21$ | $0.06 \le V < 0.17$ |
+| **Moderate** | $0.30 \le V < 0.50$ | $0.21 \le V < 0.35$ | $0.17 \le V < 0.29$ |
+| **Strong** | $V \ge 0.50$ | $V \ge 0.35$ | $V \ge 0.29$ |
+
+*(where $k = \min(r - 1, c - 1)$)*
 
 ---
 
-## 🛠️ Tools and Technologies
+## 9. The Three Numerical Binning Methods
 
-- **Programming Language:** Python 3.10+
-- **Application Framework:** Streamlit (Dynamic, responsive web dashboard)
-- **Data Manipulation:** Pandas & NumPy
-- **Statistical Engine:** SciPy (`scipy.stats.chi2_contingency`, `scipy.stats.chi2.ppf`)
-- **Interactive Visualizations:** Plotly Express & Plotly Graph Objects
+When numerical features are selected, the application discretizes continuous scales into discrete groups:
+
+1. **Configurable Cutoffs (Custom Splits):**
+   - User defines boundary cutoffs manually (or uses domain presets).
+   - *Example:* Attendance can be partitioned into 2 categories (`Low (<75)` vs `High (≥75)`) or 3 categories (`Low`, `Medium`, `High`).
+   - *Advantage:* Aligns with academic thresholds and institutional grading policies.
+2. **Quantile Bins (Equal Frequency):**
+   - Splits data using sample quantiles into 2 (median), 3 (tertiles), or 4 (quartiles) groups.
+   - *Advantage:* Ensures approximately equal numbers of observations in each category, preventing sparse marginal distributions.
+3. **Equal-Width Intervals:**
+   - Divides the numerical range $[\min, \max]$ into equal-span intervals.
+   - *Advantage:* Preserves the natural scale distribution across categories.
 
 ---
 
-## 📁 Project Structure
+## 10. Significance Level ($\alpha$) & Cochran's Assumption Checks
+
+### Significance Level ($\alpha$)
+The significance level represents the acceptable probability of a Type I error (false positive). The dashboard provides 3 options:
+- $\alpha = 0.01$ (Conservative: 1% false positive risk)
+- $\alpha = 0.05$ (Standard: 5% false positive risk)
+- $\alpha = 0.10$ (Exploratory: 10% false positive risk)
+
+### Cochran's Assumption Audit (1954)
+Because the Chi-Square statistic relies on a continuous large-sample approximation, the test is valid when:
+1. **Minimum Cell Expectation:** $E_{ij} \ge 1.0$ across all cells.
+2. **Sparse Cell Percentage:** No more than $20\%$ of cells have $E_{ij} < 5.0$.
+
+When Cochran's criteria are violated:
+- The dashboard issues a prominent warning callout.
+- For $2 \times 2$ tables, **Fisher's Exact Test** and **Yates' continuity-corrected Chi-Square** are automatically calculated.
+- For larger tables, category consolidation or larger datasets are recommended.
+
+---
+
+## 11. Project Folder Structure
 
 ```text
-Student_Performance_Prediction/
-├── app.py                             # Main Streamlit web application & statistical engine
-├── requirements.txt                   # Production dependencies
-├── README.md                          # Comprehensive project documentation
-├── .gitignore                         # Git exclusion rules
-├── dataset/
-│   ├── student_data.csv               # Original student academic dataset (42 records)
-│   └── demonstration_survey_data.csv  # Large synthetic academic survey dataset (350 records)
-└── results/                           # Output directory for exported analysis reports
+Feature-Independence-Validator/
+├── app.py                      # Main Streamlit web application & UI
+├── test_statistical_engine.py  # Automated unit test suite (8 test cases)
+├── requirements.txt            # Production dependencies with minimum version bounds
+├── README.md                   # Comprehensive project documentation
+├── .gitignore                  # Git exclusions for venvs, bytecode, and exports
+└── dataset/
+    ├── student_data.csv              # Student academic dataset (42 records)
+    └── demonstration_survey_data.csv # Academic survey dataset (350 records)
 ```
 
 ---
 
-## 💻 Installation & Setup Guide (Windows)
+## 12. Dataset Descriptions & Verified Record Counts
 
-Follow these step-by-step instructions in PowerShell or Command Prompt:
+### 1. Student Academic Dataset (`dataset/student_data.csv`)
+- **Verified Row Count:** Exactly **42 data rows** (excluding header).
+- **Columns (5):**
+  - `Attendance` (Numeric, float: 60.0 to 95.0)
+  - `Study_Hours` (Numeric, float: 1.5 to 5.0)
+  - `Previous_Marks` (Numeric, integer: 50 to 90)
+  - `Assignment_Score` (Numeric, integer: 55 to 92)
+  - `Performance` (Categorical: `'Excellent'`, `'Good'`, `'Average'`, `'Poor'`)
+- **Purpose:** Demonstrates real student performance metrics and small-sample conditions ($N = 42$), triggering Cochran warnings to test statistical diagnostics.
 
-### 1. Open Terminal and Navigate to Project Directory
+### 2. Demonstration Academic Survey (`dataset/demonstration_survey_data.csv`)
+- **Verified Row Count:** Exactly **350 data rows** (excluding header).
+- **Columns (8):**
+  - `Attendance_Level` (Categorical: `'High (>=85%)'`, `'Moderate (70-84%)'`, `'Low (<70%)'`)
+  - `Study_Environment` (Categorical: `'Quiet/Private'`, `'Home/Moderate'`, `'Noisy'`, `'Library/Campus'`)
+  - `Parent_Education` (Categorical: `'High School'`, `'Bachelor Degree'`, `'Master/PhD'`, `'Other'`)
+  - `Extracurricular` (Categorical: `'Participating'`, `'Not Participating'`)
+  - `Learning_Style` (Categorical: `'Visual'`, `'Auditory'`, `'Kinesthetic'`, `'Reading/Writing'`)
+  - `Weekly_Study_Hours` (Numeric, float: 4.5 to 28.0)
+  - `Exam_Score` (Numeric, integer: 35 to 95)
+  - `Performance_Band` (Categorical: `'Distinction'`, `'First Class'`, `'Second Class'`, `'Needs Improvement'`)
+- **Purpose:** Demonstrates large-sample testing ($N = 350$) where cell counts satisfy Cochran's validity criteria ($0$ cells $< 5.0$).
+
+---
+
+## 13. Installation Instructions for Windows PowerShell
+
+Ensure Python 3.10+ is installed and accessible in PowerShell:
+
 ```powershell
-cd d:\Documents\MATHS_3\micro_project\Student_Performance_Prediction
+python --version
+```
+*(If `python` is not recognized, use `py --version` or verify your PATH configuration).*
+
+---
+
+## 14. Virtual Environment Creation & Activation
+
+Navigate into the project directory and create an isolated virtual environment:
+
+```powershell
+# Navigate into the project folder
+cd <path-to-project-folder>
+
+# Create a virtual environment
+python -m venv venv
+
+# Activate the virtual environment
+.\venv\Scripts\Activate.ps1
 ```
 
-### 2. Create a Virtual Environment (Recommended)
-Creating an isolated virtual environment prevents library conflicts:
+> **Execution Policy Tip:** If PowerShell displays a script execution policy restriction, enable local scripts for the current process:
+> ```powershell
+> Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+> ```
+
+---
+
+## 15. Dependency Installation & Application Launch Commands
+
+With your virtual environment activated:
+
 ```powershell
-# Using Python directly or Windows py launcher
-py -m venv venv
-```
+# Upgrade package installer
+python -m pip install --upgrade pip
 
-### 3. Activate the Virtual Environment
-- **PowerShell:**
-  ```powershell
-  .\venv\Scripts\Activate.ps1
-  ```
-  *(If execution policies block the script, run: `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`)*
-
-- **Command Prompt (CMD):**
-  ```cmd
-  venv\Scripts\activate.bat
-  ```
-
-### 4. Install Dependencies
-Install all required libraries using `requirements.txt`:
-```powershell
+# Install required dependencies
 pip install -r requirements.txt
-```
-*(Or without a venv: `py -m pip install -r requirements.txt`)*
 
----
-
-## 🚀 How to Run the Dashboard
-
-To launch the web application, execute:
-
-```powershell
+# Launch the Streamlit application
 streamlit run app.py
 ```
-*(Or: `py -m streamlit run app.py`)*
 
-Once started, the application will automatically open in your default web browser at:
+### Opening the Interface
+Once launched, the terminal displays the local application URL:
 ```text
-http://localhost:8501
+  Local URL: http://localhost:8501
+```
+Open **`http://localhost:8501`** in any modern web browser.
+
+---
+
+## 16. Instructions for Uploading a Custom CSV Dataset
+
+To analyze custom data:
+1. Open the **sidebar** in the web dashboard.
+2. Under **“Select Dataset Source”**, select **“Upload Custom CSV File”**.
+3. Click **“Browse files”** and upload your `.csv` file.
+4. Requirements:
+   - File must be valid comma-separated values (`.csv`).
+   - Must contain at least 2 distinct columns.
+   - Can include both categorical (text/string) and continuous numerical columns.
+   - Missing cells (`NaN`, null) are automatically counted and excluded from the test matrix.
+
+---
+
+## 17. How to Interpret Results and Visualizations
+
+- **Primary Metrics Cards:**
+  - $\chi^2$: Higher values indicate larger deviations between observed and expected frequencies.
+  - $p$-value: Compare against $\alpha$. If $p < \alpha$, the association is statistically significant.
+  - Cramér's V: Indicates practical effect magnitude (from $0.00$ to $1.00$).
+- **Decision Banner:**
+  - Green banner: **Reject $H_0$** — Statistically significant association detected.
+  - Grey banner: **Fail to Reject $H_0$** — Insufficient evidence of association.
+- **Grouped Bar Chart:**
+  - Toggle between raw counts and within-group conditional percentages to observe category distributions.
+- **Contingency Heatmap:**
+  - Switch between observed counts ($O_{ij}$), expected counts ($E_{ij}$), and standardized residuals ($r_{ij}$).
+  - Cells in the residuals heatmap with $|r_{ij}| > 2.0$ indicate category pairs with significant positive or negative association.
+
+---
+
+## 18. How to Export the TXT Report and CSV Tables
+
+In **Section 7** of the dashboard:
+1. **Download Full Report (`.txt`):** Exports a formatted text report with timestamps, parameters, observed tables, expected tables, residuals, test statistics, and Cochran audit status.
+2. **Download Contingency Table (`.csv`):** Exports the observed cross-tabulation table with marginal row and column totals.
+3. **Download Expected Frequencies (`.csv`):** Exports the theoretical expectation matrix $E_{ij}$ rounded to 4 decimals.
+
+---
+
+## 19. How to Run Automated Unit Tests
+
+A comprehensive unit test suite is included in `test_statistical_engine.py`. Run the suite with:
+
+```powershell
+python -m unittest test_statistical_engine.py -v
+```
+
+### Verified Test Suite Output (8 Tests Executed)
+```text
+test_cochran_criteria_validation ... ok
+test_cramers_v_calculation ... ok
+test_cramers_v_interpretation ... ok
+test_demonstration_dataset_integrity ... ok
+test_expected_frequencies_and_chi2 ... ok
+test_representative_calculation_attendance_vs_performance ... ok
+test_student_dataset_integrity ... ok
+test_text_report_and_csv_export_structure ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK
 ```
 
 ---
 
-## 🖥️ How to Use the Dashboard
+## 20. Limitations and Future Enhancements
 
-1. **Select or Upload Dataset**:
-   - Use the **sidebar** to toggle between the default **Student Academic Dataset (42 records)**, the **Demonstration Academic Survey (350 records)**, or upload a custom `.csv` file.
-2. **Configure Significance Level ($\alpha$)**:
-   - Choose $\alpha = 0.01$ (conservative), $\alpha = 0.05$ (standard), or $\alpha = 0.10$.
-3. **Inspect Dataset Overview**:
-   - Review total records, feature count, missing cells, data types, and preview the raw data table.
-4. **Choose Variables**:
-   - Select **Feature 1 (Row variable)** and **Feature 2 (Column variable)**.
-   - If a selected variable is numerical (e.g., `Attendance` or `Study_Hours`), configure the bin boundaries (cutoffs, quantiles, or equal intervals) to convert it into meaningful categories.
-5. **Analyze Results**:
-   - Review the observed cross-tabulation table with row and column totals.
-   - Inspect the calculated $\chi^2$ statistic, degrees of freedom, p-value, and critical value.
-   - Read the automated hypothesis decision and interpretation.
-   - Check the **Cochran's Assumption Audit** to verify sample size adequacy.
-   - Review **Cramer's V** to evaluate the practical strength of association.
-6. **Explore Visualizations**:
-   - Interact with the Plotly **Grouped Bar Chart** (toggle counts vs within-group percentages).
-   - Inspect the **Contingency Heatmap** (switch between observed, expected, and standardized residuals).
-7. **Export Reports**:
-   - Download the full plaintext statistical summary report or export the contingency tables as CSV files.
+### Limitations
+1. **Discretization Information Loss:** Converting continuous numbers into bins causes loss of numerical precision.
+2. **Sample Size Sensitivity:** Small samples ($N < 50$) often violate Cochran's rule; very large samples ($N > 100,000$) make trivial differences achieve $p < 0.001$.
+3. **Nominal Independence:** Standard Chi-Square ignores ordinal hierarchy (e.g. `'Poor'` $<$ `'Good'`).
+4. **Association $\neq$ Causation:** The test proves statistical dependency, not a causal relationship.
+5. **No Model Training:** Does not fit parameters, predict target labels, or evaluate model accuracy.
+
+### Future Enhancements
+1. **Exact Multinomial Tests:** Add Monte Carlo simulation for tables larger than $2 \times 2$ when Cochran's rule fails.
+2. **Ordinal Association Measures:** Add Spearman's rank correlation or Goodman and Kruskal's gamma for ordered categorical features.
+3. **Automated Feature Selector:** Add automated batch ranking of all features against a target class label using Chi-Square scores.
 
 ---
 
-## 📊 How to Interpret the Results
+## 21. GitHub Usage Instructions
 
-| Condition | P-Value vs $\alpha$ | Decision | Meaning |
-| :--- | :--- | :--- | :--- |
-| **Significant** | $p < \alpha$ | **Reject $H_0$** | Strong sample evidence that the two features are associated. |
-| **Not Significant** | $p \ge \alpha$ | **Fail to Reject $H_0$** | Insufficient evidence; distributions do not deviate significantly from random chance. |
+### Cloning the Repository
+```powershell
+git clone https://github.com/Jetson17/Feature-Independence-Validator.git
+cd Feature-Independence-Validator
+```
 
-### Context in Machine Learning
-- **Feature vs Target (Feature Selection):** A significant association indicates that the categorical feature contains discriminative signal for predicting the target class (similar to scikit-learn's `SelectKBest(score_func=chi2)`).
-- **Feature vs Feature (Redundancy Check):** A very high Chi-Square and Cramer's V between two input features reveals redundancy. Dropping or merging one of the features can reduce multicollinearity and improve model generalization.
+### Checking Git Working Tree
+```powershell
+git status
+```
+
+### Staging and Committing Changes
+```powershell
+git add app.py test_statistical_engine.py requirements.txt .gitignore README.md
+git commit -m "Complete project audit, add test suite, and update documentation"
+```
+
+### Pushing to GitHub
+```powershell
+git push origin main
+```
 
 ---
 
-## ⚠️ Limitations of the Chi-Square Test
+## Academic Project Metadata
 
-1. **Sample Size Sensitivity**:
-   - In small samples ($N < 50$), expected cell counts often drop below 5, violating Cochran's criterion and inflating Type I error rates.
-   - In extremely large samples ($N > 100,000$), even practically trivial differences achieve statistical significance ($p < 0.001$), which is why **Cramer's V** must always accompany p-values.
-2. **Categorization Loss of Information**:
-   - Discretizing continuous variables into discrete bins causes loss of granularity and can be sensitive to where boundaries are placed.
-3. **Correlation, Not Causation**:
-   - Chi-Square establishes non-random association, not directional causation. Unobserved confounding variables may drive the relationship.
-4. **Order Ignorance**:
-   - The standard Chi-Square test treats categories as nominal; it does not take into account ordinal hierarchies (e.g., Low < Medium < High).
+- **Course:** B.Tech Computer Science & Engineering | Mathematics & Statistics
+- **Project Title:** Feature Independence Validation Using Chi-Square Test
+- **Student Name:** `[Insert Student Name]`
+- **Register / Roll Number:** `[Insert Roll / Register Number]`
+- **Faculty Guide / Mentor:** `[Insert Faculty Guide Name]`
+- **Department:** Department of Computer Science & Engineering
+- **Institution:** `[Insert College / University Name]`
+- **Academic Year:** `2025–2026`
 
 ---
 
-## 🎓 College Viva / Demo Guide
+## License
 
-When presenting this micro-project to your professor or external examiner:
-
-1. **Introduce the Motivation:** Explain why feature independence validation is an essential mathematical step in machine learning before feeding categorical columns into algorithms.
-2. **Demonstrate with Original Data (42 records):** Show `Attendance` vs `Performance`. Point out that the test achieves statistical significance, but emphasize your statistical maturity by highlighting the **Cochran's Rule Warning** (due to $N=42$).
-3. **Demonstrate with the 350-record Dataset:** Switch to the demonstration survey in the sidebar to show how larger samples satisfy Cochran's assumptions ($0$ cells $< 5$) and cleanly validate feature pairs (e.g., `Attendance_Level` vs `Performance_Band`).
-4. **Show Significance Level Impact:** Switch $\alpha$ from $0.05$ to $0.10$ on boundary cases (like `Learning_Style` vs `Performance_Band`) to explain how the critical threshold alters the decision.
-5. **Highlight Effect Size vs P-Value:** Clarify that p-value tests *statistical significance* (is the effect real?), while Cramer's V tests *practical magnitude* (how strong is the relationship?).
-6. **Export the Report:** Download the generated plaintext report to show a complete, publication-ready summary of findings.
-#   F e a t u r e - I n d e p e n d e n c e - V a l i d a t o r  
- #   F e a t u r e - I n d e p e n d e n c e - V a l i d a t o r  
- 
+This repository is submitted for college course evaluation. It currently has no explicit open-source license. All rights are reserved by the author(s).

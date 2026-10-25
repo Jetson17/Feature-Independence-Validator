@@ -1,6 +1,7 @@
 """
-Feature Independence Validation Using Chi-Square Test in Machine Learning Models
+Feature Independence Validation Using Chi-Square Test
 Streamlit Micro-Project Web Application
+Department of Computer Science & Engineering | Mathematics & Statistics
 """
 
 import io
@@ -17,12 +18,12 @@ import streamlit as st
 # ==============================================================================
 st.set_page_config(
     page_title="Chi-Square Feature Independence Validator",
-    page_icon="📊",
+    page_icon="📐",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for modern, polished academic dashboard aesthetics
+# Custom CSS for clean, professional academic dashboard aesthetics
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -35,108 +36,114 @@ st.markdown("""
     .hero-container {
         background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         color: #ffffff;
-        padding: 2rem 2.5rem;
-        border-radius: 12px;
-        margin-bottom: 1.8rem;
+        padding: 1.6rem 2rem;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
         border: 1px solid #334155;
-        box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
     .hero-title {
-        font-size: 2.1rem;
+        font-size: 1.85rem;
         font-weight: 700;
         letter-spacing: -0.02em;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
         color: #f8fafc;
     }
     .hero-subtitle {
-        font-size: 1.05rem;
+        font-size: 0.98rem;
         color: #94a3b8;
         line-height: 1.5;
-        max-width: 900px;
-        margin-bottom: 0.8rem;
+        max-width: 950px;
+        margin-bottom: 0.6rem;
+    }
+    .hero-badges {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
     }
     .hero-badge {
         display: inline-block;
-        background-color: #3b82f6;
+        background-color: #2563eb;
         color: #ffffff;
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-weight: 600;
-        padding: 0.25rem 0.75rem;
+        padding: 0.2rem 0.65rem;
         border-radius: 9999px;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-right: 0.5rem;
+        letter-spacing: 0.04em;
     }
-    .hero-badge-alt {
+    .hero-badge-sub {
         display: inline-block;
-        background-color: #10b981;
+        background-color: #059669;
         color: #ffffff;
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-weight: 600;
-        padding: 0.25rem 0.75rem;
+        padding: 0.2rem 0.65rem;
         border-radius: 9999px;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.04em;
     }
-    
-    /* Card Containers */
-    .metric-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 1.25rem;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .metric-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-    }
-    
-    /* Status Badges */
-    .decision-box-reject {
-        background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-        border: 1.5px solid #10b981;
-        border-radius: 10px;
-        padding: 1.4rem;
-        margin: 1rem 0;
-    }
-    .decision-box-fail {
-        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-        border: 1.5px solid #3b82f6;
-        border-radius: 10px;
-        padding: 1.4rem;
-        margin: 1rem 0;
-    }
-    .decision-box-warn {
-        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-        border: 1.5px solid #f59e0b;
-        border-radius: 10px;
-        padding: 1.4rem;
-        margin: 1rem 0;
-    }
-    
-    /* Clean table captions and section headers */
-    .section-title {
-        font-size: 1.35rem;
+
+    /* Section Headers */
+    .section-header {
+        font-size: 1.25rem;
         font-weight: 600;
-        color: #1e293b;
+        color: #0f172a;
         margin-top: 1.5rem;
-        margin-bottom: 0.8rem;
+        margin-bottom: 0.6rem;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.4rem;
     }
-    
-    /* Streamlit tabs and container improvements */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 10px;
+    .section-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        background-color: #2563eb;
+        color: #ffffff;
+        border-radius: 50%;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-right: 0.35rem;
     }
-    .stTabs [data-baseweb="tab"] {
-        height: 44px;
-        border-radius: 6px 6px 0 0;
-        padding: 0 16px;
-        font-weight: 500;
+
+    /* Decision Containers */
+    .decision-box-reject {
+        background: #f0fdf4;
+        border: 1px solid #86efac;
+        border-left: 5px solid #16a34a;
+        border-radius: 8px;
+        padding: 1.2rem;
+        margin: 0.8rem 0;
+    }
+    .decision-box-fail {
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-left: 5px solid #64748b;
+        border-radius: 8px;
+        padding: 1.2rem;
+        margin: 0.8rem 0;
+    }
+    .decision-box-warn {
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+        border-left: 5px solid #d97706;
+        border-radius: 8px;
+        padding: 1.2rem;
+        margin: 0.8rem 0;
+    }
+
+    /* Compact Note Callouts */
+    .academic-note {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 0.85rem 1rem;
+        font-size: 0.88rem;
+        color: #334155;
+        line-height: 1.45;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -152,7 +159,7 @@ def load_default_student_data():
     try:
         return pd.read_csv("dataset/student_data.csv")
     except Exception as e:
-        st.error(f"Error loading student_data.csv: {e}")
+        st.error(f"Error loading dataset/student_data.csv: {e}")
         return None
 
 @st.cache_data
@@ -161,13 +168,13 @@ def load_demonstration_data():
     try:
         return pd.read_csv("dataset/demonstration_survey_data.csv")
     except Exception as e:
-        st.error(f"Error loading demonstration_survey_data.csv: {e}")
+        st.error(f"Error loading dataset/demonstration_survey_data.csv: {e}")
         return None
 
 def compute_cramers_v(chi2_stat, n, r, c):
     """
     Compute Cramer's V effect size measure.
-    V = sqrt(chi2 / (n * min(r - 1, c - 1)))
+    Formula: V = sqrt(chi2 / (n * min(r - 1, c - 1)))
     """
     if n <= 0:
         return 0.0
@@ -179,37 +186,37 @@ def compute_cramers_v(chi2_stat, n, r, c):
 
 def interpret_cramers_v(v, r, c):
     """
-    Determine the qualitative strength of Cramer's V based on degrees of freedom.
-    Using Cohen (1988) and Rea & Parker benchmark tables.
+    Determine the qualitative strength of Cramer's V based on degrees of freedom k = min(r-1, c-1).
+    Using standard Cohen (1988) and Rea & Parker benchmark guidelines.
     """
     k = min(r - 1, c - 1)
     if k <= 1:
         if v < 0.10:
-            return "Negligible", "The association magnitude is trivial or practically negligible."
+            return "Negligible", "Practically negligible association between the two features."
         elif v < 0.30:
-            return "Small / Weak", "There is a weak association between the two features."
+            return "Weak", "Weak association between the two features."
         elif v < 0.50:
-            return "Moderate", "There is a moderate association between the two features."
+            return "Moderate", "Moderate association between the two features."
         else:
-            return "Strong / Large", "There is a strong association between the two features."
+            return "Strong", "Strong association between the two features."
     elif k == 2:
         if v < 0.07:
-            return "Negligible", "The association magnitude is trivial or practically negligible."
+            return "Negligible", "Practically negligible association between the two features."
         elif v < 0.21:
-            return "Small / Weak", "There is a weak association between the two features."
+            return "Weak", "Weak association between the two features."
         elif v < 0.35:
-            return "Moderate", "There is a moderate association between the two features."
+            return "Moderate", "Moderate association between the two features."
         else:
-            return "Strong / Large", "There is a strong association between the two features."
+            return "Strong", "Strong association between the two features."
     else:
         if v < 0.06:
-            return "Negligible", "The association magnitude is trivial or practically negligible."
+            return "Negligible", "Practically negligible association between the two features."
         elif v < 0.17:
-            return "Small / Weak", "There is a weak association between the two features."
+            return "Weak", "Weak association between the two features."
         elif v < 0.29:
-            return "Moderate", "There is a moderate association between the two features."
+            return "Moderate", "Moderate association between the two features."
         else:
-            return "Strong / Large", "There is a strong association between the two features."
+            return "Strong", "Strong association between the two features."
 
 def generate_text_report(
     project_title,
@@ -234,9 +241,10 @@ def generate_text_report(
     effect_label,
     cochran_valid,
     cells_below_5_pct,
-    min_expected
+    min_expected,
+    alt_test_notes=""
 ):
-    """Generate a clean, structured plaintext report for export."""
+    """Generate a clean, structured plaintext report for documentation export."""
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     report = []
@@ -254,7 +262,7 @@ def generate_text_report(
     report.append(f"Significance Level (a): {alpha}")
     report.append("-" * 78)
     
-    report.append("\n1. OBSERVED CONTINGENCY TABLE (pd.crosstab)")
+    report.append("\n1. OBSERVED CONTINGENCY TABLE (Cross-Tabulation with Margins)")
     report.append("-" * 78)
     report.append(observed_df.to_string())
     
@@ -262,35 +270,38 @@ def generate_text_report(
     report.append("-" * 78)
     report.append(expected_df.round(3).to_string())
     
-    report.append("\n\n3. STANDARDIZED RESIDUALS ((O - E) / sqrt(E))")
+    report.append("\n\n3. STANDARDIZED PEARSON RESIDUALS ((O - E) / sqrt(E))")
     report.append("-" * 78)
     report.append(residuals_df.round(3).to_string())
     
+    # Display small p-values in scientific notation to avoid rounding to 0.00000
+    p_val_display = f"{p_value:.6e}" if p_value < 0.0001 else f"{p_value:.5f}"
+
     report.append("\n\n4. CHI-SQUARE TEST OF INDEPENDENCE RESULTS")
     report.append("-" * 78)
     report.append(f"Chi-Square Statistic (X^2) : {chi2_stat:.5f}")
     report.append(f"Degrees of Freedom (df)     : {dof}")
-    report.append(f"P-Value                     : {p_value:.6e} ({p_value:.5f})")
+    report.append(f"P-Value                     : {p_val_display}")
     report.append(f"Critical Value (X^2_crit)   : {critical_val:.5f} (at a = {alpha})")
     report.append(f"Effect Size (Cramer's V)    : {cramers_v:.4f} [{effect_label}]")
     
     report.append("\n5. HYPOTHESES & STATISTICAL DECISION")
     report.append("-" * 78)
-    report.append("H0 (Null Hypothesis)       : Feature X and Feature Y are independent.")
-    report.append("H1 (Alternative Hypothesis): Feature X and Feature Y are associated.")
-    report.append(f"Decision Rule              : If p-value < {alpha}, Reject H0; Else Fail to Reject H0.")
+    report.append("H0 (Null Hypothesis)       : Feature X and Feature Y are statistically independent.")
+    report.append("H1 (Alternative Hypothesis): Feature X and Feature Y are statistically associated.")
+    report.append(f"Decision Rule              : If p-value < {alpha} (or X^2 > X^2_crit), Reject H0; Else Fail to Reject H0.")
     report.append(f"Final Decision             : {decision.upper()}")
     
     if "REJECT" in decision.upper() and "FAIL" not in decision.upper():
         report.append(
-            f"Interpretation             : At the {alpha} significance level, the p-value ({p_value:.5f}) is less\n"
+            f"Interpretation             : At the {alpha} significance level, the p-value ({p_val_display}) is less\n"
             f"                             than {alpha}. There is statistically significant evidence to reject H0.\n"
             f"                             A significant association exists between {var_x} and {var_y}."
         )
     else:
         report.append(
-            f"Interpretation             : At the {alpha} significance level, the p-value ({p_value:.5f}) is greater\n"
-            f"                             than or equal to {alpha}. We fail to reject H0. The data does not provide\n"
+            f"Interpretation             : At the {alpha} significance level, the p-value ({p_val_display}) is greater\n"
+            f"                             than or equal to {alpha}. We fail to reject H0. The sample does not provide\n"
             f"                             sufficient statistical evidence of association."
         )
     report.append("\n* CAUTION: Statistical association does not imply a causal relationship.")
@@ -298,29 +309,28 @@ def generate_text_report(
     
     report.append("\n6. STATISTICAL ASSUMPTION AUDIT (Cochran's Rule)")
     report.append("-" * 78)
-    report.append(f"Minimum Expected Frequency : {min_expected:.3f}")
-    report.append(f"Cells with Expected < 5    : {cells_below_5_pct:.1f}%")
+    report.append(f"Minimum Expected Frequency : {min_expected:.3f} (Required >= 1.0)")
+    report.append(f"Cells with Expected < 5    : {cells_below_5_pct:.1f}% (Required <= 20.0%)")
     if cochran_valid:
         report.append("Assumption Audit Status    : PASSED. Asymptotic Chi-Square approximation is reliable.")
     else:
         report.append("Assumption Audit Status    : WARNING. Small expected frequencies detected.")
         report.append("                             More than 20% of cells have expected frequency < 5, or min < 1.")
-        report.append("                             Consider combining sparse categories or expanding sample size.")
-    
-    report.append("\n7. MACHINE LEARNING FEATURE VALIDATION CONTEXT")
+        report.append("                             The standard asymptotic p-value should be interpreted with caution.")
+    if alt_test_notes:
+        report.append(f"\nAlternative Test Findings  :\n{alt_test_notes}")
+        
+    report.append("\n7. DOWNLOADABLE STATISTICAL ANALYSIS REPORT")
     report.append("-" * 78)
-    if "REJECT" in decision.upper() and "FAIL" not in decision.upper():
-        report.append(
-            "Feature Engineering Note   : The significant association suggests these features share predictive\n"
-            "                             information. If one is the target, this feature is informative.\n"
-            "                             If both are input features, evaluate whether retaining both introduces\n"
-            "                             redundancy or multicollinearity in classification models."
-        )
-    else:
-        report.append(
-            "Feature Engineering Note   : The lack of detectable association suggests these categorical features\n"
-            "                             behave independently in this sample, carrying non-overlapping signals."
-        )
+    report.append(
+        "This report was compiled and exported from the Chi-Square Feature Independence\n"
+        "Validator dashboard. All statistical computations, contingency distributions,\n"
+        "and diagnostic validity checks are finalized and verified.\n\n"
+        "Associated Export Files:\n"
+        f"  - Full Analysis Report (.txt)         : ChiSquare_Report_{var_x}_vs_{var_y}.txt\n"
+        f"  - Observed Contingency Table (.csv)   : Contingency_Table_{var_x}_vs_{var_y}.csv\n"
+        f"  - Expected Frequencies Matrix (.csv) : Expected_Frequencies_{var_x}_vs_{var_y}.csv"
+    )
     report.append("=" * 78)
     report.append("END OF REPORT")
     report.append("=" * 78)
@@ -329,18 +339,18 @@ def generate_text_report(
 
 
 # ==============================================================================
-# 3. APPLICATION HEADER & HERO SECTION
+# 3. APPLICATION HEADER & INTRODUCTION
 # ==============================================================================
 
 st.markdown("""
 <div class="hero-container">
-    <div>
-        <span class="hero-badge">Statistical Hypothesis Testing</span>
-        <span class="hero-badge-alt">Machine Learning Feature Validation</span>
+    <div class="hero-badges">
+        <span class="hero-badge">Hypothesis Testing</span>
+        <span class="hero-badge-sub">Feature Independence Validation</span>
     </div>
     <div class="hero-title">Feature Independence Validation Using Chi-Square Test</div>
     <div class="hero-subtitle">
-        An interactive micro-project dashboard for evaluating statistical independence, category cross-tabulation, 
+        An interactive micro-project dashboard for evaluating statistical independence, contingency cross-tabulation, 
         and association strength between categorical features in machine learning datasets.
     </div>
 </div>
@@ -351,7 +361,7 @@ st.markdown("""
 # 4. SIDEBAR CONTROLS
 # ==============================================================================
 
-st.sidebar.title("🛠️ Configuration")
+st.sidebar.title("Controls & Settings")
 
 dataset_choice = st.sidebar.selectbox(
     "Select Dataset Source",
@@ -361,7 +371,7 @@ dataset_choice = st.sidebar.selectbox(
         "Upload Custom CSV File"
     ],
     index=0,
-    help="Choose between the original student dataset, a larger demonstration survey, or your own CSV."
+    help="Choose between the original student dataset, a larger demonstration survey, or your custom CSV."
 )
 
 df_raw = None
@@ -370,12 +380,12 @@ dataset_label = ""
 if dataset_choice == "Student Academic Dataset (Default - 42 records)":
     df_raw = load_default_student_data()
     dataset_label = "Student Academic Dataset (dataset/student_data.csv)"
-    st.sidebar.info("💡 **Original student dataset loaded**: 42 student records with academic performance metrics.")
+    st.sidebar.caption("Loaded 42 student records with academic performance metrics.")
 
 elif dataset_choice == "Demonstration Academic Survey (Synthetic - 350 records)":
     df_raw = load_demonstration_data()
     dataset_label = "Demonstration Academic Survey (dataset/demonstration_survey_data.csv)"
-    st.sidebar.success("📊 **Demonstration dataset loaded**: 350 records with multiple categorical variables ideal for large-sample Chi-Square validation.")
+    st.sidebar.caption("Loaded 350 survey records ideal for large-sample Chi-Square validation.")
 
 else:
     uploaded_file = st.sidebar.file_uploader(
@@ -387,12 +397,12 @@ else:
         try:
             df_raw = pd.read_csv(uploaded_file)
             dataset_label = f"Uploaded CSV: {uploaded_file.name}"
-            st.sidebar.success(f"✅ Loaded `{uploaded_file.name}` ({len(df_raw)} records)")
+            st.sidebar.success(f"Loaded `{uploaded_file.name}` ({len(df_raw)} records)")
         except Exception as e:
             st.sidebar.error(f"Error parsing uploaded CSV: {e}")
             st.stop()
     else:
-        st.info("👈 Please upload a CSV file in the sidebar to proceed, or select one of the provided datasets.")
+        st.info("Please upload a CSV file in the sidebar to proceed, or choose one of the built-in datasets.")
         st.stop()
 
 if df_raw is None or df_raw.empty:
@@ -402,45 +412,47 @@ if df_raw is None or df_raw.empty:
 st.sidebar.divider()
 
 # Significance level alpha
-st.sidebar.subheader("🎯 Significance Level (α)")
+st.sidebar.subheader("Significance Level (α)")
 alpha = st.sidebar.radio(
-    "Select α (Threshold for rejecting H₀):",
+    "Select α threshold:",
     options=[0.01, 0.05, 0.10],
     index=1,
     format_func=lambda x: f"α = {x} ({int(x*100)}% Type I Error Rate)",
-    help="The probability of rejecting the null hypothesis when it is actually true (Type I error rate). α = 0.05 is standard."
+    help="The probability of rejecting the null hypothesis when it is actually true. α = 0.05 is standard."
 )
 
 st.sidebar.divider()
 
-# Expandable Guide for Viva/Presentation
-with st.sidebar.expander("📖 Micro-Project Guide & Theory", expanded=False):
+# Theory Guide Expander (Placed in sidebar expander to prevent a permanently long sidebar)
+with st.sidebar.expander("Theoretical Guide & Key Formulas", expanded=False):
     st.markdown(r"""
-    **Chi-Square (χ²) Test of Independence:**
-    - Non-parametric test to determine whether two categorical variables are statistically associated.
+    **Chi-Square ($\chi^2$) Test of Independence:**
+    $$\chi^2 = \sum_{i=1}^r \sum_{j=1}^c \frac{(O_{ij} - E_{ij})^2}{E_{ij}}$$
     
-    **Hypotheses:**
-    - **$H_0$ (Null):** The variables are independent (no association).
-    - **$H_1$ (Alternative):** The variables are associated.
+    **Degrees of Freedom:**
+    $$df = (r - 1) \times (c - 1)$$
+    
+    **Expected Frequencies:**
+    $$E_{ij} = \frac{R_i \times C_j}{N}$$
     
     **Decision Rule:**
-    - If **p-value < α**, reject $H_0$.
-    - Otherwise, fail to reject $H_0$.
+    - If **$p\text{-value} < \alpha$**, Reject $H_0$ (Association detected).
+    - Otherwise, Fail to Reject $H_0$ (Independence not rejected).
     
-    **Cochran's Assumption (1954):**
-    - Minimum expected cell count must be $\ge 1$.
-    - At least 80% of expected cell counts must be $\ge 5$.
+    **Cochran's Rule (1954):**
+    - $E_{ij} \ge 1.0$ for all cells.
+    - At least 80% of cells have $E_{ij} \ge 5.0$.
     
-    **Cramer's V:**
-    - Effect size measure quantifying association magnitude from 0 (no association) to 1 (complete association).
+    **Cramér's V:**
+    $$V = \sqrt{\frac{\chi^2}{N \times \min(r - 1, c - 1)}}$$
     """)
 
 
 # ==============================================================================
-# 5. DATASET OVERVIEW SECTION
+# SECTION 1: DATASET OVERVIEW & PREVIEW
 # ==============================================================================
 
-st.markdown('<div class="section-title">📂 Dataset Overview</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header"><span class="section-num">1</span> Dataset Overview & Inspection</div>', unsafe_allow_html=True)
 
 total_records = len(df_raw)
 total_columns = len(df_raw.columns)
@@ -448,25 +460,23 @@ missing_cells = int(df_raw.isna().sum().sum())
 num_cols = df_raw.select_dtypes(include=[np.number]).columns.tolist()
 cat_cols = [c for c in df_raw.columns if c not in num_cols]
 
-col1, col2, col3, col4, col5 = st.columns(5)
-with col1:
+m_col1, m_col2, m_col3, m_col4, m_col5 = st.columns(5)
+with m_col1:
     st.metric("Total Records (N)", total_records)
-with col2:
+with m_col2:
     st.metric("Total Features (P)", total_columns)
-with col3:
+with m_col3:
     st.metric("Missing Values", missing_cells)
-with col4:
+with m_col4:
     st.metric("Categorical Features", len(cat_cols))
-with col5:
+with m_col5:
     st.metric("Numerical Features", len(num_cols))
 
-overview_tabs = st.tabs(["📋 Dataset Preview", "🔍 Column Metadata & Data Types", "📥 Export Dataset"])
+st.dataframe(df_raw.head(10), use_container_width=True)
+st.caption(f"Showing first 10 rows from `{dataset_label}`.")
 
-with overview_tabs[0]:
-    st.dataframe(df_raw.head(15), width="stretch")
-    st.caption(f"Showing first 15 of {total_records} rows from `{dataset_label}`.")
-
-with overview_tabs[1]:
+# Optional Column Metadata Expander
+with st.expander("View Column Metadata & Data Types", expanded=False):
     meta_records = []
     for col in df_raw.columns:
         dt = str(df_raw[col].dtype)
@@ -477,37 +487,37 @@ with overview_tabs[1]:
         col_type = "Numerical" if col in num_cols else "Categorical"
         meta_records.append({
             "Column Name": col,
-            "Detected Nature": col_type,
+            "Type": col_type,
             "Data Type": dt,
-            "Non-Null Count": total_records - n_null,
+            "Non-Null": total_records - n_null,
             "Null Count": n_null,
             "Null %": f"{null_pct:.1f}%",
             "Unique Values": n_unique,
             "Sample Values": sample_vals
         })
     meta_df = pd.DataFrame(meta_records)
-    st.dataframe(meta_df, width="stretch", hide_index=True)
+    st.dataframe(meta_df, use_container_width=True, hide_index=True)
 
-with overview_tabs[2]:
-    csv_data = df_raw.to_csv(index=False).encode('utf-8')
-    st.download_button(
-        label="📥 Download Current Dataset (CSV)",
-        data=csv_data,
-        file_name=f"dataset_export_{datetime.date.today()}.csv",
-        mime="text/csv",
-        help="Download the active dataset as a CSV file."
-    )
+# Export Dataset
+csv_data = df_raw.to_csv(index=False).encode('utf-8')
+st.download_button(
+    label="Download Current Dataset (CSV)",
+    data=csv_data,
+    file_name=f"dataset_export_{datetime.date.today()}.csv",
+    mime="text/csv",
+    help="Export active dataset as a CSV file."
+)
 
 
 # ==============================================================================
-# 6. FEATURE SELECTION & NUMERICAL CATEGORIZATION
+# SECTION 2: VARIABLE SELECTION & FEATURE CATEGORIZATION
 # ==============================================================================
 
 st.divider()
-st.markdown('<div class="section-title">⚙️ Feature Selection & Categorization</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header"><span class="section-num">2</span> Variable Selection & Feature Discretization</div>', unsafe_allow_html=True)
 st.write(
-    "Select two distinct features from the dataset to test for statistical independence. "
-    "If you select a numerical feature, use the interactive binning controls to convert it into meaningful categories."
+    "Select two distinct variables to test for statistical independence. "
+    "If a numerical feature is chosen, it will be automatically converted into discrete categories."
 )
 
 col_sel1, col_sel2 = st.columns(2)
@@ -516,8 +526,8 @@ all_columns = list(df_raw.columns)
 default_idx1 = 0
 default_idx2 = 1 if len(all_columns) > 1 else 0
 
-# Pick sensible defaults if available
-if "Performance" in all_columns and "Attendance" in all_columns:
+# Sensible default selection
+if "Attendance" in all_columns and "Performance" in all_columns:
     default_idx1 = all_columns.index("Attendance")
     default_idx2 = all_columns.index("Performance")
 elif "Attendance_Level" in all_columns and "Performance_Band" in all_columns:
@@ -526,7 +536,7 @@ elif "Attendance_Level" in all_columns and "Performance_Band" in all_columns:
 
 with col_sel1:
     feature_x = st.selectbox(
-        "Select Feature 1 (Variable X / Row Variable):",
+        "Feature 1 (Row Variable X):",
         options=all_columns,
         index=default_idx1,
         key="feature_x_sel"
@@ -534,33 +544,55 @@ with col_sel1:
 
 with col_sel2:
     feature_y = st.selectbox(
-        "Select Feature 2 (Variable Y / Column Variable):",
+        "Feature 2 (Column Variable Y):",
         options=all_columns,
         index=default_idx2,
         key="feature_y_sel"
     )
 
+# Strict validation that variables are different
 if feature_x == feature_y:
-    st.error("⚠️ **Invalid Selection**: Feature 1 and Feature 2 must be different columns. Please pick two distinct variables.")
+    st.error("Validation Error: Feature 1 and Feature 2 must be different variables. Please pick two distinct columns.")
     st.stop()
 
 
-# Helper function to process/bin a feature
 def process_feature(df, feature_name, col_key_suffix):
     """
-    Examines a column. If categorical, returns series and metadata.
-    If numerical, provides configurable binning controls and returns binned series.
+    Examines a column. If categorical, returns clean series and metadata.
+    If numerical, provides safe, configurable binning controls and returns discretized series.
     """
     col_series = df[feature_name].copy()
     is_numerical = pd.api.types.is_numeric_dtype(col_series)
     
     if not is_numerical:
-        # Categorical variable
-        st.success(f"✅ **`{feature_name}`** is categorical with **{col_series.nunique()}** distinct observed categories.")
+        n_cats = col_series.nunique()
+        st.success(f"`{feature_name}` is categorical with **{n_cats}** distinct categories.")
+        
+        # Optional consolidation of rare categories if many categories exist
+        consolidate_rare = st.checkbox(
+            f"Consolidate sparse categories in `{feature_name}` (counts < 2 into 'Other')",
+            value=False,
+            key=f"rare_toggle_{col_key_suffix}",
+            help="Combines infrequent categories to help satisfy Cochran's minimum cell frequency criteria."
+        )
+        if consolidate_rare:
+            counts = col_series.value_counts()
+            rare_cats = counts[counts < 2].index.tolist()
+            if len(rare_cats) > 0:
+                col_series = col_series.replace(rare_cats, "Other")
+                st.caption(f"Consolidated {len(rare_cats)} sparse categories: {', '.join(map(str, rare_cats))}")
+                
         return col_series.astype(str), f"[Categorical, {col_series.nunique()} categories]"
     
-    # Numerical variable -> Needs explicit categorization
-    st.info(f"ℹ️ **`{feature_name}`** is numerical (Range: {col_series.min():.1f} to {col_series.max():.1f}). Converting into categories:")
+    # Numerical feature -> Discretization
+    c_min = float(col_series.min())
+    c_max = float(col_series.max())
+    
+    if c_min == c_max:
+        st.warning(f"`{feature_name}` has constant values ({c_min}). Cannot discretize a constant feature.")
+        return col_series.astype(str), "[Constant numerical feature]"
+    
+    st.info(f"`{feature_name}` is numerical (Range: {c_min:.1f} to {c_max:.1f}). Discretize into categories:")
     
     bin_method = st.radio(
         f"Binning Method for `{feature_name}`:",
@@ -569,30 +601,28 @@ def process_feature(df, feature_name, col_key_suffix):
         horizontal=True
     )
     
-    c_min = float(col_series.min())
-    c_max = float(col_series.max())
-    
     if bin_method == "Configurable Cutoffs (Custom)":
         num_bins = st.selectbox(
             f"Number of categories for `{feature_name}`:",
             options=[2, 3, 4],
             index=1,
-            key=f"num_bins_{col_key_suffix}"
+            key=f"num_bins_{col_key_suffix}",
+            help="Note: Using 2 categories yields larger cell frequencies, which helps satisfy Cochran's assumptions on small samples."
         )
         
-        # Provide domain-appropriate presets for known columns
+        # Domain presets
         presets = {}
         if feature_name == "Attendance" and c_max <= 100:
             if num_bins == 3:
-                presets = {"cut1": 70.0, "cut2": 85.0, "labels": "Low (<70%), Medium (70-84%), High (>=85%)"}
+                presets = {"cut1": 70.0, "cut2": 85.0}
             elif num_bins == 2:
-                presets = {"cut1": 75.0, "labels": "Low (<75%), High (>=75%)"}
+                presets = {"cut1": 75.0}
         elif feature_name == "Study_Hours":
             if num_bins == 3:
-                presets = {"cut1": 2.5, "cut2": 4.0, "labels": "Low (<2.5h), Medium (2.5-4h), High (>=4h)"}
+                presets = {"cut1": 2.5, "cut2": 4.0}
         elif "Marks" in feature_name or "Score" in feature_name:
             if num_bins == 3:
-                presets = {"cut1": 65.0, "cut2": 80.0, "labels": "Poor/Average (<65), Good (65-79), Excellent (>=80)"}
+                presets = {"cut1": 65.0, "cut2": 80.0}
         
         if num_bins == 2:
             default_cut = presets.get("cut1", round(float(col_series.median()), 1))
@@ -617,18 +647,18 @@ def process_feature(df, feature_name, col_key_suffix):
             c_cut1, c_cut2 = st.columns(2)
             with c_cut1:
                 cut1 = st.number_input(
-                    f"Cutoff 1 (Low/Medium Boundary):",
+                    f"Cutoff 1 (Low/Medium):",
                     value=float(default_cut1),
                     key=f"cut1_3_{col_key_suffix}"
                 )
             with c_cut2:
                 cut2 = st.number_input(
-                    f"Cutoff 2 (Medium/High Boundary):",
+                    f"Cutoff 2 (Medium/High):",
                     value=float(default_cut2),
                     key=f"cut2_3_{col_key_suffix}"
                 )
             if cut1 >= cut2:
-                st.warning("⚠️ Cutoff 1 should be strictly less than Cutoff 2. Adjusting Cutoff 2 automatically.")
+                st.warning("Cutoff 1 must be strictly less than Cutoff 2. Cutoff 2 has been adjusted.")
                 cut2 = cut1 + 1.0
             bins = [-np.inf, cut1, cut2, np.inf]
             labels = [f"Low (<{cut1:.1f})", f"Medium ({cut1:.1f}-{cut2:.1f})", f"High (≥{cut2:.1f})"]
@@ -644,6 +674,10 @@ def process_feature(df, feature_name, col_key_suffix):
                 cut2 = st.number_input(f"Cutoff 2:", value=round(p50, 1), key=f"cut2_4_{col_key_suffix}")
             with c_cut3:
                 cut3 = st.number_input(f"Cutoff 3:", value=round(p75, 1), key=f"cut3_4_{col_key_suffix}")
+            if cut1 >= cut2:
+                cut2 = cut1 + 0.5
+            if cut2 >= cut3:
+                cut3 = cut2 + 0.5
             bins = [-np.inf, cut1, cut2, cut3, np.inf]
             labels = [f"Tier 1 (<{cut1:.1f})", f"Tier 2 ({cut1:.1f}-{cut2:.1f})", f"Tier 3 ({cut2:.1f}-{cut3:.1f})", f"Tier 4 (≥{cut3:.1f})"]
             
@@ -668,7 +702,7 @@ def process_feature(df, feature_name, col_key_suffix):
             binned = pd.qcut(col_series, q=num_q, labels=q_labels, duplicates='drop')
             bin_desc = f"[Quantile binned: {num_q} bins]"
         except Exception as e:
-            st.warning(f"Could not calculate quantiles directly ({e}). Falling back to equal-width bins.")
+            st.warning(f"Could not compute equal quantiles ({e}). Using equal-width bins.")
             binned = pd.cut(col_series, bins=num_q, labels=q_labels, right=False)
             bin_desc = f"[Equal width binned: {num_q} bins]"
             
@@ -683,52 +717,48 @@ def process_feature(df, feature_name, col_key_suffix):
         binned = pd.cut(col_series, bins=num_w, labels=labels, right=False)
         bin_desc = f"[Equal width binned: {num_w} intervals]"
         
-    # Show category distribution
     counts = binned.value_counts().sort_index()
     dist_str = " | ".join([f"**{cat}**: {count}" for cat, count in counts.items()])
-    st.caption(f"Categorization counts: {dist_str}")
+    st.caption(f"Category counts: {dist_str}")
     
     return binned.astype(str), bin_desc
 
 
-st.write("---")
 col_proc1, col_proc2 = st.columns(2)
-
 with col_proc1:
-    st.markdown(f"#### Variable X: `{feature_x}`")
+    st.markdown(f"**Variable X:** `{feature_x}`")
     series_x, info_x = process_feature(df_raw, feature_x, "x")
 
 with col_proc2:
-    st.markdown(f"#### Variable Y: `{feature_y}`")
+    st.markdown(f"**Variable Y:** `{feature_y}`")
     series_y, info_y = process_feature(df_raw, feature_y, "y")
 
 
 # ==============================================================================
-# 7. DATA CLEANING & CONTINGENCY TABLE CREATION
+# SECTION 3: CONTINGENCY TABLE CREATION
 # ==============================================================================
 
-# Align series and handle missing values explicitly
+# Align series and handle missing values
 analysis_df = pd.DataFrame({
     feature_x: series_x,
     feature_y: series_y
 })
 
 initial_count = len(analysis_df)
-# Drop NaN or literal 'nan' strings
 valid_mask = (
     analysis_df[feature_x].notna() &
     analysis_df[feature_y].notna() &
-    (analysis_df[feature_x] != "nan") &
-    (analysis_df[feature_y] != "nan")
+    (~analysis_df[feature_x].astype(str).str.strip().str.lower().isin(["nan", "none", "null", ""])) &
+    (~analysis_df[feature_y].astype(str).str.strip().str.lower().isin(["nan", "none", "null", ""]))
 )
 clean_df = analysis_df[valid_mask]
 analyzed_count = len(clean_df)
 excluded_count = initial_count - analyzed_count
 
 if excluded_count > 0:
-    st.warning(f"⚠️ **Missing Value Handling**: {excluded_count} record(s) excluded due to missing/invalid values. Analyzing **{analyzed_count}** valid observations.")
+    st.warning(f"Missing Value Handling: {excluded_count} record(s) excluded due to missing/invalid values. Analyzing **{analyzed_count}** valid observations.")
 else:
-    st.caption(f"✅ **Data Completeness**: All {analyzed_count} records have complete data for `{feature_x}` and `{feature_y}`.")
+    st.caption(f"All {analyzed_count} records have complete data for `{feature_x}` and `{feature_y}`.")
 
 # Validate minimum unique categories
 unique_x = clean_df[feature_x].nunique()
@@ -736,14 +766,12 @@ unique_y = clean_df[feature_y].nunique()
 
 if unique_x < 2 or unique_y < 2:
     st.error(
-        f"❌ **Insufficient Categories for Testing**: "
-        f"`{feature_x}` has {unique_x} category, and `{feature_y}` has {unique_y} category. "
-        f"Chi-Square Test requires at least 2 observed categories per variable. "
-        f"Please adjust your binning cutoffs or choose different variables."
+        f"Insufficient Categories: `{feature_x}` has {unique_x} category, and `{feature_y}` has {unique_y} category. "
+        f"The Chi-Square Test requires at least 2 categories per variable. Please adjust your binning or select another feature."
     )
     st.stop()
 
-# Observed contingency table (cross-tabulation)
+# Observed contingency table
 observed_crosstab = pd.crosstab(
     clean_df[feature_x],
     clean_df[feature_y],
@@ -758,14 +786,14 @@ observed_with_margins = pd.crosstab(
 )
 
 st.divider()
-st.markdown('<div class="section-title">📊 Contingency Table (Cross-Tabulation)</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header"><span class="section-num">3</span> Observed Contingency Table (Cross-Tabulation)</div>', unsafe_allow_html=True)
 
-tab_obs1, tab_obs2, tab_obs3 = st.tabs(["🔢 Observed Counts", "📈 Proportions & Percentages", "📥 Export Table"])
+tab_obs1, tab_obs2 = st.tabs(["Observed Counts with Marginal Totals", "Proportions & Relative Frequencies (%)"])
 
 with tab_obs1:
-    st.write(f"Observed joint frequency distribution $O_{{ij}}$ for **{feature_x}** (rows) vs **{feature_y}** (columns):")
-    st.dataframe(observed_with_margins, width="stretch")
-    st.caption(f"Table dimensions: {observed_crosstab.shape[0]} rows × {observed_crosstab.shape[1]} columns (excluding marginal totals). Sample size N = {analyzed_count}.")
+    st.write(f"Cross-tabulation matrix $O_{{ij}}$ showing joint frequencies for **{feature_x}** (rows) vs **{feature_y}** (columns):")
+    st.dataframe(observed_with_margins, use_container_width=True)
+    st.caption(f"Dimensions: {observed_crosstab.shape[0]} rows × {observed_crosstab.shape[1]} columns. Total sample size N = {analyzed_count}.")
 
 with tab_obs2:
     prop_type = st.radio(
@@ -775,36 +803,34 @@ with tab_obs2:
     )
     if prop_type == "Row Percentages (%)":
         row_props = pd.crosstab(clean_df[feature_x], clean_df[feature_y], normalize='index') * 100
-        st.dataframe(row_props.round(2).astype(str) + "%", width="stretch")
+        st.dataframe(row_props.round(2).astype(str) + "%", use_container_width=True)
         st.caption("Each row sums to 100.0%. Shows the conditional distribution of Feature Y given Feature X.")
     elif prop_type == "Column Percentages (%)":
         col_props = pd.crosstab(clean_df[feature_x], clean_df[feature_y], normalize='columns') * 100
-        st.dataframe(col_props.round(2).astype(str) + "%", width="stretch")
+        st.dataframe(col_props.round(2).astype(str) + "%", use_container_width=True)
         st.caption("Each column sums to 100.0%. Shows the conditional distribution of Feature X given Feature Y.")
     else:
         tot_props = pd.crosstab(clean_df[feature_x], clean_df[feature_y], normalize='all') * 100
-        st.dataframe(tot_props.round(2).astype(str) + "%", width="stretch")
+        st.dataframe(tot_props.round(2).astype(str) + "%", use_container_width=True)
         st.caption("All cells sum to 100.0%. Shows the joint relative frequency distribution.")
 
-with tab_obs3:
-    csv_crosstab = observed_with_margins.to_csv().encode('utf-8')
-    st.download_button(
-        label="📥 Download Contingency Table (CSV)",
-        data=csv_crosstab,
-        file_name=f"contingency_table_{feature_x}_vs_{feature_y}.csv",
-        mime="text/csv",
-        help="Download the observed contingency table as a CSV file."
-    )
+csv_crosstab = observed_with_margins.to_csv().encode('utf-8')
+st.download_button(
+    label="Download Contingency Table (CSV)",
+    data=csv_crosstab,
+    file_name=f"contingency_table_{feature_x}_vs_{feature_y}.csv",
+    mime="text/csv",
+    help="Download observed contingency table as CSV."
+)
 
 
 # ==============================================================================
-# 8. CHI-SQUARE COMPUTATION & STATISTICAL AUDIT
+# SECTION 4: CHI-SQUARE TEST OF INDEPENDENCE & DECISION
 # ==============================================================================
 
-# SciPy Chi-Square test
+# SciPy Chi-Square computation
 chi2_stat, p_value, dof, expected_matrix = stats.chi2_contingency(observed_crosstab, correction=False)
 
-# Convert expected frequencies to DataFrame with matching index and columns
 expected_df = pd.DataFrame(
     expected_matrix,
     index=observed_crosstab.index,
@@ -814,7 +840,7 @@ expected_df = pd.DataFrame(
 # Standardized Pearson residuals: (O - E) / sqrt(E)
 residuals_df = (observed_crosstab - expected_df) / np.sqrt(expected_df)
 
-# Critical value at selected alpha
+# Critical value
 critical_val = stats.chi2.ppf(1 - alpha, dof)
 
 # Effect size: Cramer's V
@@ -823,8 +849,8 @@ cramers_v = compute_cramers_v(chi2_stat, analyzed_count, r_dim, c_dim)
 effect_label, effect_desc = interpret_cramers_v(cramers_v, r_dim, c_dim)
 
 # Cochran's (1954) criteria validation:
-# 1. No expected frequency < 1
-# 2. At most 20% of expected frequencies < 5
+# 1. No expected frequency < 1.0
+# 2. At most 20% of expected frequencies < 5.0
 min_expected = float(expected_matrix.min())
 cells_below_1 = int((expected_matrix < 1.0).sum())
 cells_below_5 = int((expected_matrix < 5.0).sum())
@@ -842,13 +868,22 @@ else:
     decision_text = "Fail to Reject Null Hypothesis (H₀)"
     decision_status = "No Statistically Significant Association"
 
+# Alternative exact tests if 2x2
+is_2x2 = (r_dim == 2 and c_dim == 2)
+p_fisher = None
+chi2_yates = None
+p_yates = None
 
-# ==============================================================================
-# 9. RESULTS & STATISTICAL DECISION DASHBOARD
-# ==============================================================================
+if is_2x2:
+    try:
+        fisher_res = stats.fisher_exact(observed_crosstab.values)
+        p_fisher = float(fisher_res.pvalue)
+        chi2_yates, p_yates, _, _ = stats.chi2_contingency(observed_crosstab, correction=True)
+    except Exception:
+        pass
 
 st.divider()
-st.markdown('<div class="section-title">🧪 Chi-Square Test of Independence Results</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header"><span class="section-num">4</span> Hypothesis Testing & Chi-Square Results</div>', unsafe_allow_html=True)
 
 # Metrics Cards
 m_col1, m_col2, m_col3, m_col4, m_col5 = st.columns(5)
@@ -864,143 +899,173 @@ with m_col4:
 with m_col5:
     st.metric("Cramer's V (Effect)", f"{cramers_v:.4f}")
 
-# Hypothesis Decision Container
+# Hypothesis & Decision Banner
 if reject_null:
     st.markdown(f"""
     <div class="decision-box-reject">
-        <h3 style="color: #065f46; margin-top:0;">✅ Statistical Decision: {decision_text}</h3>
-        <p style="color: #047857; font-size: 1.05rem; margin-bottom: 0.5rem;">
+        <h4 style="color: #15803d; margin: 0 0 0.4rem 0;">Statistical Decision: {decision_text}</h4>
+        <p style="color: #166534; font-size: 0.95rem; margin-bottom: 0.35rem;">
             <strong>Result:</strong> Statistically significant association detected between 
-            <code>{feature_x}</code> and <code>{feature_y}</code> at the α = {alpha} level.
+            <code>{feature_x}</code> and <code>{feature_y}</code> at the α = {alpha} significance level.
         </p>
-        <p style="color: #064e3b; margin-bottom: 0.2rem;">
-            <strong>Interpretation:</strong> Because the p-value (<strong>{p_format}</strong>) is strictly less than 
-            the chosen significance level (<strong>α = {alpha}</strong>), and the calculated test statistic 
-            (<strong>χ² = {chi2_stat:.4f}</strong>) exceeds the critical value (<strong>χ²_crit = {critical_val:.4f}</strong>), 
-            we reject the null hypothesis of independence. The distribution of categories in <code>{feature_x}</code> 
-            is statistically dependent on <code>{feature_y}</code>.
+        <p style="color: #14532d; font-size: 0.9rem; margin-bottom: 0;">
+            <strong>Test Conclusion:</strong> Because the p-value (<strong>{p_format}</strong>) is strictly less than 
+            α = {alpha}, and the test statistic (<strong>χ² = {chi2_stat:.4f}</strong>) exceeds the critical value 
+            (<strong>χ²_crit = {critical_val:.4f}</strong>), we reject the null hypothesis of independence.
         </p>
     </div>
     """, unsafe_allow_html=True)
 else:
     st.markdown(f"""
     <div class="decision-box-fail">
-        <h3 style="color: #1e40af; margin-top:0;">⚖️ Statistical Decision: {decision_text}</h3>
-        <p style="color: #1d4ed8; font-size: 1.05rem; margin-bottom: 0.5rem;">
-            <strong>Result:</strong> Insufficient statistical evidence to reject H₀ at the α = {alpha} level.
+        <h4 style="color: #334155; margin: 0 0 0.4rem 0;">Statistical Decision: {decision_text}</h4>
+        <p style="color: #475569; font-size: 0.95rem; margin-bottom: 0.35rem;">
+            <strong>Result:</strong> Insufficient statistical evidence to reject H₀ at the α = {alpha} significance level.
         </p>
-        <p style="color: #1e3a8a; margin-bottom: 0.2rem;">
-            <strong>Interpretation:</strong> Because the p-value (<strong>{p_format}</strong>) is greater than or equal to 
-            the significance level (<strong>α = {alpha}</strong>), we fail to reject the null hypothesis. 
-            The sample does not exhibit a statistically significant association between <code>{feature_x}</code> and <code>{feature_y}</code>.
+        <p style="color: #1e293b; font-size: 0.9rem; margin-bottom: 0;">
+            <strong>Test Conclusion:</strong> Because the p-value (<strong>{p_format}</strong>) is greater than or equal to 
+            α = {alpha}, we fail to reject H₀. The observed variation is consistent with random chance.
         </p>
     </div>
     """, unsafe_allow_html=True)
 
-# Academic & Statistical Rigor Alerts
-col_note1, col_note2 = st.columns(2)
-with col_note1:
-    st.warning(
-        "⚠️ **Association Does Not Imply Causation**: "
-        "A statistically significant Chi-Square test confirms that category proportions differ beyond random chance, "
-        "but it does not establish that one feature causes changes in the other."
+col_warn1, col_warn2 = st.columns(2)
+with col_warn1:
+    st.caption(
+        "**Note on Causation:** Association does not imply causation. A significant Chi-Square test indicates "
+        "that category distributions differ, but does not prove that one variable causes changes in the other."
     )
-with col_note2:
-    st.info(
-        "📘 **Absence of Evidence is Not Evidence of Absence**: "
-        "Failing to reject H₀ does not mathematically prove complete independence; "
-        "it only indicates that any potential association is too small to be detected at this sample size and significance level."
+with col_warn2:
+    st.caption(
+        "**Note on Independence:** Failing to reject H₀ does not prove absolute mathematical independence; "
+        "it only indicates that any association present was undetectable at this sample size and significance level."
     )
 
 
 # ==============================================================================
-# 10. STATISTICAL ASSUMPTION AUDIT (Cochran's Criterion)
+# SECTION 5: ASSUMPTION AUDIT & DIAGNOSTIC TABLES
 # ==============================================================================
 
 st.divider()
-st.markdown('<div class="section-title">🛡️ Statistical Assumption Audit (Cochran\'s Criterion)</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header"><span class="section-num">5</span> Statistical Assumption Audit (Cochran\'s Rule) & Diagnostics</div>', unsafe_allow_html=True)
+
+alt_report_notes = ""
 
 if cochran_valid:
     st.success(
-        f"✅ **Assumptions Fully Satisfied**: Minimum expected cell frequency is **{min_expected:.2f}** (≥ 1.0), "
+        f"Assumptions Fully Satisfied: Minimum expected cell count is {min_expected:.2f} (≥ 1.0), "
         f"and {cells_below_5} of {total_cells} cells ({cells_below_5_pct:.1f}%) have expected count < 5.0 (≤ 20.0%). "
         f"The asymptotic Chi-Square distribution approximation is reliable."
     )
 else:
     st.markdown(f"""
     <div class="decision-box-warn">
-        <h4 style="color: #92400e; margin-top:0;">⚠️ Small Expected Frequencies Detected (Cochran's Rule Warning)</h4>
-        <p style="color: #b45309; margin-bottom: 0.4rem;">
-            The standard asymptotic Chi-Square test relies on large-sample approximations. 
-            Cochran (1954) established that:
+        <h4 style="color: #92400e; margin: 0 0 0.35rem 0;">⚠️ Cochran's Assumption Warning: Small Expected Frequencies Detected</h4>
+        <p style="color: #78350f; font-size: 0.92rem; margin-bottom: 0.4rem;">
+            Pearson's Chi-Square test relies on large-sample asymptotic approximation. Cochran (1954) established that:
         </p>
-        <ul style="color: #78350f; margin-bottom: 0.5rem;">
-            <li>No expected cell frequency should be strictly less than 1.0 (Current minimum: <strong>{min_expected:.2f}</strong>).</li>
-            <li>No more than 20% of expected cell frequencies should be less than 5.0 (Current: <strong>{cells_below_5_pct:.1f}%</strong> — {cells_below_5} of {total_cells} cells).</li>
+        <ul style="color: #78350f; font-size: 0.88rem; margin-bottom: 0.4rem;">
+            <li>No expected cell count should be less than 1.0 (Current minimum: <strong>{min_expected:.2f}</strong>).</li>
+            <li>No more than 20% of expected cell counts should be less than 5.0 (Current: <strong>{cells_below_5_pct:.1f}%</strong> — {cells_below_5} of {total_cells} cells).</li>
         </ul>
-        <p style="color: #92400e; margin-bottom: 0;">
-            <strong>Impact:</strong> The reported p-value should be interpreted cautiously and not treated as definitive.
-            <strong>Recommended Solutions:</strong>
-            (1) Consolidate sparse categories into fewer bins (e.g. 2 bins instead of 3 or 4);
-            (2) Increase the sample size by testing the 350-record Demonstration dataset;
-            (3) In a viva/presentation, explain that small datasets naturally trigger Cochran warnings, demonstrating statistical rigor!
+        <p style="color: #92400e; font-size: 0.9rem; margin-bottom: 0;">
+            <strong>Caution:</strong> When expected counts are small, the true distribution deviates from theoretical χ², 
+            which can inflate the Type I error rate. The reported p-value should be interpreted cautiously rather than as definitive proof.
         </p>
     </div>
     """, unsafe_allow_html=True)
+    
+    # Practical remedies
+    if is_2x2 and p_fisher is not None:
+        p_fisher_fmt = f"{p_fisher:.4e}" if p_fisher < 0.0001 else f"{p_fisher:.4f}"
+        p_yates_fmt = f"{p_yates:.4e}" if p_yates < 0.0001 else f"{p_yates:.4f}"
+        st.info(
+            f"**Exact Alternative for 2×2 Table:** "
+            f"Because this is a 2×2 contingency table, you can rely on **Fisher's Exact Test**, which computes the exact hypergeometric probability without asymptotic assumptions: "
+            f"**Fisher's Exact p-value = {p_fisher_fmt}** (Yates' corrected χ² = {chi2_yates:.4f}, p = {p_yates_fmt})."
+        )
+        p_fisher_rep = f"{p_fisher:.6e}" if p_fisher < 0.0001 else f"{p_fisher:.6f}"
+        p_yates_rep = f"{p_yates:.6e}" if p_yates < 0.0001 else f"{p_yates:.6f}"
+        alt_report_notes = (
+            f"Fisher's Exact Test p-value : {p_fisher_rep}\n"
+            f"Yates' Corrected Chi-Square : {chi2_yates:.4f} (p = {p_yates_rep})"
+        )
+    else:
+        st.info(
+            "**Recommended Remedies:** "
+            "(1) Consolidate sparse categories into fewer categories (e.g. choose 2 bins for numerical variables in Section 2); "
+            "(2) Evaluate the larger 350-record Demonstration survey dataset from the sidebar; "
+            "(3) In your college micro-project presentation, explain that small sample sizes naturally trigger Cochran warnings, demonstrating statistical rigor!"
+        )
 
-# Expected Frequencies Table & Residuals Tabs
-exp_tabs = st.tabs(["🧮 Expected Frequencies Matrix (E_ij)", "🎯 Standardized Residuals", "📏 Effect Size (Cramer's V)"])
+# Diagnostic Tabs
+exp_tabs = st.tabs([
+    "Expected Frequencies Matrix (E_ij)",
+    "Standardized Residuals (r_ij)",
+    "Effect Size Interpretation (Cramér's V)",
+    "Alternative Tests & Small-Sample Notes"
+])
 
 with exp_tabs[0]:
-    st.write("Expected frequencies calculated under the theoretical assumption of complete independence:")
-    st.markdown("$$E_{ij} = \\frac{R_i \\times C_j}{N}$$")
-    st.dataframe(expected_df.round(2), width="stretch")
-    st.caption("Each cell represents the count expected if no association existed between the two variables.")
+    st.write("Expected frequencies calculated under the assumption of complete independence:")
+    st.markdown(r"$$E_{ij} = \frac{R_i \times C_j}{N}$$")
+    st.dataframe(expected_df.round(2), use_container_width=True)
+    st.caption("Each cell represents the expected count under H₀.")
 
 with exp_tabs[1]:
-    st.write("Standardized Pearson residuals identify which specific category combinations deviate most from expectation:")
-    st.markdown("$$r_{ij} = \\frac{O_{ij} - E_{ij}}{\\sqrt{E_{ij}}}$$")
-    st.dataframe(residuals_df.round(2), width="stretch")
-    st.caption(
-        "Interpretation: Residuals with absolute value > 2.0 (or > -2.0) indicate cells that contribute "
-        "significantly to the overall Chi-Square statistic at approximately 95% confidence."
-    )
+    st.write("Standardized Pearson residuals identify which category combinations deviate most from expectation:")
+    st.markdown(r"$$r_{ij} = \frac{O_{ij} - E_{ij}}{\sqrt{E_{ij}}}$$")
+    st.dataframe(residuals_df.round(2), use_container_width=True)
+    st.caption("Residuals with absolute value > 2.0 indicate cells contributing significantly to the association at ~95% confidence.")
 
 with exp_tabs[2]:
-    st.write("### Cramer's V Effect Size Measure")
-    st.markdown("$$V = \\sqrt{\\frac{\\chi^2}{N \\times \\min(r - 1, c - 1)}}$$")
+    st.write("**Cramér's V Effect Size Measure:**")
+    st.markdown(r"$$V = \sqrt{\frac{\chi^2}{N \times \min(r - 1, c - 1)}}$$")
     v_c1, v_c2 = st.columns([1, 2])
     with v_c1:
-        st.metric("Cramer's V Value", f"{cramers_v:.4f}")
+        st.metric("Cramér's V Value", f"{cramers_v:.4f}")
         st.info(f"**Classification:** {effect_label}")
     with v_c2:
         st.write(f"**Interpretation:** {effect_desc}")
+        st.caption("Unlike the p-value (which shrinks with large N), Cramér's V measures the true magnitude of association between 0 (none) and 1 (perfect).")
+
+with exp_tabs[3]:
+    st.write("**Small-Sample & Alternative Testing Diagnostics:**")
+    if is_2x2 and p_fisher is not None:
+        p_fisher_disp = f"{p_fisher:.4e}" if p_fisher < 0.0001 else f"{p_fisher:.4f}"
+        p_yates_disp = f"{p_yates:.4e}" if p_yates < 0.0001 else f"{p_yates:.4f}"
+        c_alt1, c_alt2 = st.columns(2)
+        with c_alt1:
+            st.metric("Fisher's Exact Test (p-value)", p_fisher_disp)
+            st.caption("Exact conditional hypergeometric test. Recommended when Cochran's assumptions fail on 2×2 tables.")
+        with c_alt2:
+            st.metric("Yates' Continuity-Corrected χ²", f"{chi2_yates:.4f}")
+            st.caption(f"Continuity-adjusted p-value = {p_yates_disp}")
+    else:
         st.write(
-            "Unlike the p-value (which is heavily influenced by sample size N), "
-            "Cramer's V provides a normalized effect size between 0.0 (no association) "
-            "and 1.0 (perfect association) that can be compared across different studies and models."
+            "For contingency tables larger than 2×2 where Cochran's rule fails, exact tests require extensive permutations. "
+            "The standard statistical remedy is category consolidation (merging infrequent categories into an 'Other' group or reducing bin counts)."
         )
 
 
 # ==============================================================================
-# 11. INTERACTIVE PLOTLY VISUALIZATIONS
+# SECTION 6: INTERACTIVE VISUALIZATIONS
 # ==============================================================================
 
 st.divider()
-st.markdown('<div class="section-title">📉 Interactive Statistical Visualizations</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header"><span class="section-num">6</span> Interactive Statistical Visualizations</div>', unsafe_allow_html=True)
 
 vis_col1, vis_col2 = st.columns(2)
 
 with vis_col1:
-    st.subheader("1. Grouped Category Distribution")
+    st.subheader("Grouped Distribution Chart")
     chart_mode = st.radio(
-        "Bar Chart Display Mode:",
+        "Display Format:",
         options=["Absolute Frequency (Counts)", "Within-Group Relative Percentage (%)"],
         horizontal=True,
         key="bar_mode_toggle"
     )
     
-    # Prepare data for grouped bar chart
     if chart_mode == "Absolute Frequency (Counts)":
         chart_df = clean_df.groupby([feature_x, feature_y]).size().reset_index(name="Count")
         fig_bar = px.bar(
@@ -1009,9 +1074,9 @@ with vis_col1:
             y="Count",
             color=feature_y,
             barmode="group",
-            title=f"Distribution of {feature_y} across {feature_x} (Counts)",
+            title=f"Distribution of {feature_y} across {feature_x}",
             labels={feature_x: str(feature_x), "Count": "Observed Frequency", feature_y: str(feature_y)},
-            color_discrete_sequence=px.colors.qualitative.Prism
+            color_discrete_sequence=px.colors.qualitative.Safe
         )
     else:
         chart_df = pd.crosstab(clean_df[feature_x], clean_df[feature_y], normalize='index').reset_index()
@@ -1025,23 +1090,23 @@ with vis_col1:
             barmode="group",
             title=f"Relative Distribution of {feature_y} within {feature_x} (%)",
             labels={feature_x: str(feature_x), "Percentage": "Within-Group Percentage (%)", feature_y: str(feature_y)},
-            color_discrete_sequence=px.colors.qualitative.Prism
+            color_discrete_sequence=px.colors.qualitative.Safe
         )
         fig_bar.update_layout(yaxis=dict(ticksuffix="%"))
         
     fig_bar.update_layout(
         template="plotly_white",
         legend_title_text=str(feature_y),
-        margin=dict(l=40, r=40, t=50, b=40),
+        margin=dict(l=30, r=30, t=40, b=30),
         hovermode="x unified"
     )
-    st.plotly_chart(fig_bar, width="stretch")
+    st.plotly_chart(fig_bar, use_container_width=True)
 
 with vis_col2:
-    st.subheader("2. Contingency Table Heatmap")
+    st.subheader("Contingency Heatmap")
     heatmap_view = st.radio(
-        "Heatmap Data Metric:",
-        options=["Observed Frequencies (O_ij)", "Expected Frequencies (E_ij)", "Standardized Residuals (O-E)/√E"],
+        "Heatmap Metric:",
+        options=["Observed Frequencies (O_ij)", "Expected Frequencies (E_ij)", "Standardized Residuals (r_ij)"],
         horizontal=True,
         key="heatmap_mode_toggle"
     )
@@ -1049,17 +1114,17 @@ with vis_col2:
     if heatmap_view == "Observed Frequencies (O_ij)":
         heat_matrix = observed_crosstab.values
         heat_text = heat_matrix.astype(str)
-        heat_title = f"Observed Counts Heatmap: {feature_x} vs {feature_y}"
+        heat_title = f"Observed Counts: {feature_x} vs {feature_y}"
         color_scale = "Blues"
     elif heatmap_view == "Expected Frequencies (E_ij)":
         heat_matrix = expected_df.values
         heat_text = np.round(heat_matrix, 2).astype(str)
-        heat_title = f"Expected Counts Heatmap: {feature_x} vs {feature_y}"
-        color_scale = "Teal"
+        heat_title = f"Expected Counts: {feature_x} vs {feature_y}"
+        color_scale = "Viridis"
     else:
         heat_matrix = residuals_df.values
         heat_text = np.round(heat_matrix, 2).astype(str)
-        heat_title = f"Standardized Residuals Heatmap: {feature_x} vs {feature_y}"
+        heat_title = f"Standardized Residuals: {feature_x} vs {feature_y}"
         color_scale = "RdBu_r"
         
     fig_heat = go.Figure(data=go.Heatmap(
@@ -1068,7 +1133,7 @@ with vis_col2:
         y=list(observed_crosstab.index),
         text=heat_text,
         texttemplate="%{text}",
-        textfont={"size": 13},
+        textfont={"size": 12},
         colorscale=color_scale,
         colorbar=dict(title="Value")
     ))
@@ -1078,45 +1143,20 @@ with vis_col2:
         xaxis_title=str(feature_y),
         yaxis_title=str(feature_x),
         template="plotly_white",
-        margin=dict(l=40, r=40, t=50, b=40)
+        margin=dict(l=30, r=30, t=40, b=30)
     )
-    st.plotly_chart(fig_heat, width="stretch")
+    st.plotly_chart(fig_heat, use_container_width=True)
 
 
 # ==============================================================================
-# 12. MACHINE LEARNING CONTEXT & PRACTICAL SIGNIFICANCE
-# ==============================================================================
-
-st.divider()
-st.markdown('<div class="section-title">🤖 Machine Learning & Feature Engineering Application</div>', unsafe_allow_html=True)
-
-with st.expander("💡 Why Feature Independence Validation Matters in Machine Learning", expanded=True):
-    col_ml1, col_ml2 = st.columns(2)
-    with col_ml1:
-        st.markdown("""
-        #### 1. Categorical Feature Selection
-        - In classification algorithms (e.g., Decision Trees, Random Forests, Logistic Regression), we want features that are **strongly associated with the target variable**.
-        - Scikit-learn's `SelectKBest(score_func=chi2)` utilizes this exact test to rank categorical predictors and filter out uninformative noise variables.
-        - **Practical Rule:** If testing a candidate predictor against the target label yields a significant p-value ($p < \\alpha$), the feature carries discriminative predictive power!
-        """)
-    with col_ml2:
-        st.markdown("""
-        #### 2. Multicollinearity & Redundancy Detection
-        - When testing **two input features** against one another, a high Chi-Square statistic and large Cramer's V indicate **feature redundancy**.
-        - Retaining two strongly associated input features can inflate model variance, complicate feature importance attribution, and unnecessarily increase dimensionality.
-        - **Feature Engineering Rule:** If two categorical features exhibit near-perfect association, one can often be pruned or combined without sacrificing model accuracy.
-        """)
-
-
-# ==============================================================================
-# 13. DOWNLOADABLE ANALYSIS REPORT & SUMMARY
+# SECTION 7: DOWNLOADABLE ANALYSIS REPORT & SUMMARY
 # ==============================================================================
 
 st.divider()
-st.markdown('<div class="section-title">📄 Downloadable Statistical Analysis Report</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header"><span class="section-num">7</span> Downloadable Statistical Analysis Report</div>', unsafe_allow_html=True)
 
 full_report_text = generate_text_report(
-    project_title="Feature Independence Validation Using Chi-Square Test in Machine Learning Models",
+    project_title="Feature Independence Validation Using Chi-Square Test",
     dataset_name=dataset_label,
     var_x=feature_x,
     var_y=feature_y,
@@ -1138,7 +1178,8 @@ full_report_text = generate_text_report(
     effect_label=effect_label,
     cochran_valid=cochran_valid,
     cells_below_5_pct=cells_below_5_pct,
-    min_expected=min_expected
+    min_expected=min_expected,
+    alt_test_notes=alt_report_notes
 )
 
 rep_col1, rep_col2 = st.columns([2, 1])
@@ -1152,42 +1193,42 @@ with rep_col1:
     )
 
 with rep_col2:
-    st.write("### Export Options")
-    st.write("Download the complete mathematical and statistical analysis summary for your project documentation or lab record:")
+    st.write("**Export Options:**")
+    st.caption("Export the complete statistical report or raw tables for documentation and lab submissions:")
     
     st.download_button(
-        label="📥 Download Full Analysis Report (.txt)",
+        label="Download Full Report (.txt)",
         data=full_report_text.encode('utf-8'),
         file_name=f"ChiSquare_Report_{feature_x}_vs_{feature_y}.txt",
         mime="text/plain",
-        width="stretch"
+        use_container_width=True
     )
     
     st.download_button(
-        label="📥 Download Observed Contingency Table (.csv)",
+        label="Download Contingency Table (.csv)",
         data=observed_with_margins.to_csv().encode('utf-8'),
         file_name=f"Contingency_Table_{feature_x}_vs_{feature_y}.csv",
         mime="text/csv",
-        width="stretch"
+        use_container_width=True
     )
     
     st.download_button(
-        label="📥 Download Expected Frequencies (.csv)",
+        label="Download Expected Frequencies (.csv)",
         data=expected_df.round(4).to_csv().encode('utf-8'),
         file_name=f"Expected_Frequencies_{feature_x}_vs_{feature_y}.csv",
         mime="text/csv",
-        width="stretch"
+        use_container_width=True
     )
 
 
 # ==============================================================================
-# 14. FOOTER
+# FOOTER
 # ==============================================================================
 
 st.divider()
 st.markdown("""
-<div style="text-align: center; color: #64748b; font-size: 0.85rem; padding: 1rem 0;">
-    <strong>Feature Independence Validation Using Chi-Square Test in Machine Learning Models</strong><br>
-    College Micro-Project | Computer Science & Engineering | Built with Python, Streamlit, Pandas, SciPy & Plotly
+<div style="text-align: center; color: #64748b; font-size: 0.85rem; padding: 0.5rem 0 1.5rem 0;">
+    <strong>Feature Independence Validation Using Chi-Square Test</strong><br>
+    B.Tech CSE Mathematics & Statistics Micro-Project | Python, Streamlit, Pandas, SciPy & Plotly
 </div>
 """, unsafe_allow_html=True)
