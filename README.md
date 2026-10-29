@@ -72,24 +72,18 @@ This project addresses these challenges with an automated diagnostic workflow co
 - **Configurable Significance Levels ($\alpha$):** Instant recalculation for $\alpha = 0.01$ (conservative), $\alpha = 0.05$ (standard), or $\alpha = 0.10$ (exploratory).
 - **Automated Feature Categorization & Binning:**
   - Automatic detection of numeric vs. categorical types.
-  - 3 flexible discretization strategies: Custom Domain Cutoffs, Quantile Splits, and Equal-Width Intervals.
+  - Configurable Cutoffs discretization: Partition continuous values into 2, 3, or 4 categories with custom thresholds and domain presets.
   - Category consolidation toggle to merge rare classes (counts $< 2$) into an `"Other"` bin.
 - **Contingency Matrix Generation:**
   - Observed count cross-tabulations with marginal totals ($R_i$, $C_j$, $N$).
-  - Normalized conditional distribution tables (Row %, Column %, and Total Table %).
 - **Hypothesis Testing Engine:**
-  - Calculates $\chi^2$, degrees of freedom ($df$), $p$-value, and critical threshold ($\chi^2_{\text{crit}}$).
+  - Calculates $\chi^2$, degrees of freedom ($df$), and $p$-value with high precision.
   - Clear visual decision banners (High-contrast monochrome panels for Reject $H_0$ and Fail to Reject $H_0$).
-- **Statistical Assumption Audit (Cochran's 1954 Criteria):**
-  - Flags matrices violating $E_{ij} \ge 1.0$ or having $> 20\%$ of cells with $E_{ij} < 5.0$.
-  - Recommends and computes Fisher's Exact Test and Yates' correction for $2 \times 2$ tables.
-- **Standardized Pearson Residuals:** Highlights individual cell pairs that significantly diverge ($|r_{ij}| > 2.0$) from theoretical independence.
-- **Effect Size Quantification (Cramér's V):** Normalized $0.00$ to $1.00$ metric interpreted through Cohen's degrees-of-freedom-adjusted benchmarks.
 - **Interactive Visualizations:**
-  - Grouped bar charts toggleable between absolute counts and conditional percentages.
+  - Grouped bar charts toggleable between absolute counts and conditional percentages (with original colors).
   - Multi-metric heatmaps displaying observed counts, expected counts, or standardized residuals.
 - **Multi-Format Export Suite:**
-  - Downloadable `.txt` audit reports with timestamps and complete diagnostic outputs.
+  - Downloadable `.txt` audit reports with timestamps and complete testing outputs.
   - Downloadable observed and expected contingency tables in `.csv` format.
 
 ---
@@ -206,24 +200,16 @@ Using $E_{ij} = (R_i \cdot C_j) / N$:
 
 ---
 
-## 6. Discretization Strategies for Numerical Data
+## 6. Discretization Strategy for Numerical Data
 
-When a user selects a continuous numeric column (e.g., `Attendance`, `Study_Hours`, `Exam_Score`), the application provides three binning mechanisms:
+When a user selects a continuous numeric column (e.g., `Attendance`, `Study_Hours`, `Exam_Score`), the application provides configurable cutoffs to discretize continuous values into meaningful academic categories:
 
 ```
 Continuous Numerical Column
-  ├── 1. Configurable Cutoffs (Custom Splits)
-  │      ├── 2 Bins: Split at user threshold (e.g. Attendance ≥ 75)
-  │      ├── 3 Bins: Low / Medium / High with dual threshold inputs
-  │      └── 4 Bins: Tier 1 to Tier 4 across 3 thresholds
-  │
-  ├── 2. Quantile Bins (Equal Frequency)
-  │      ├── 2 Quantiles: Median split (50th percentile)
-  │      ├── 3 Quantiles: Tertiles (33.3rd & 66.7th percentiles)
-  │      └── 4 Quantiles: Quartiles (25th, 50th, 75th percentiles)
-  │
-  └── 3. Equal-Width Intervals
-         └── Range [min, max] divided into k equal mathematical spans
+  └── Configurable Cutoffs (Custom Splits)
+         ├── 2 Bins: Split at user threshold (e.g. Attendance ≥ 75.0)
+         ├── 3 Bins: Low / Medium / High with dual threshold inputs
+         └── 4 Bins: Tier 1 to Tier 4 across 3 thresholds
 ```
 
 ### Rare Category Consolidation
@@ -354,29 +340,24 @@ http://localhost:8501
 
 ## 11. Application Dashboard Walkthrough
 
-The web dashboard is organized into 7 logical sections:
+The web dashboard is organized into 6 focused, logical sections:
 
 1. **Section 1 — Dataset Overview & Preview:**
    - Displays total records, column counts, missing value statistics, and column data types.
    - Includes an interactive scrollable table previewing the loaded dataset.
 2. **Section 2 — Variable Selection & Feature Discretization:**
    - Independent dropdown selectors for Variable $X$ (Row) and Variable $Y$ (Column).
-   - Real-time numerical discretization with live category frequency previews.
+   - Real-time numerical discretization with live category frequency previews and configurable cutoffs.
    - Sparse category consolidation toggle.
 3. **Section 3 — Contingency Table Creation:**
-   - Cross-tabulation table with marginal row totals ($R_i$), column totals ($C_j$), and grand sample size ($N$).
-   - Radio buttons to toggle between Raw Counts, Within-Row Percentages (Row %), Within-Column Percentages (Col %), and Grand Table Percentages (Total %).
+   - Clean cross-tabulation table with marginal row totals ($R_i$), column totals ($C_j$), and grand sample size ($N$).
 4. **Section 4 — Hypothesis Testing & Chi-Square Results:**
-   - 5 KPI summary cards: $\chi^2$, $p$-value, $df$, Critical Value ($\chi^2_{\text{crit}}$), and Cramér's V.
-   - High-contrast monochrome decision panel stating whether $H_0$ is rejected or not, with plain-language interpretations.
-5. **Section 5 — Statistical Assumption Audit (Cochran's Rule) & Diagnostics:**
-   - Evaluates Cochran's (1954) criteria with exact cell percentages and minimum expected frequencies.
-   - Recommends and displays Fisher's Exact Test and Yates' Continuity Correction for $2 \times 2$ tables.
-   - Displays Expected Frequencies ($E_{ij}$) and Standardized Pearson Residuals ($r_{ij}$) with $|r_{ij}| > 2.0$ highlighting.
-6. **Section 6 — Interactive Statistical Visualizations:**
+   - 3 core KPI summary cards: $\chi^2$, $p$-value, and Degrees of Freedom ($df$).
+   - High-contrast monochrome decision panel stating whether $H_0$ is rejected or not based on the significance threshold $\alpha$.
+5. **Section 5 — Interactive Statistical Visualizations:**
    - **Grouped Bar Chart:** Categorical distribution chart using the original vibrant qualitative color palette (`Safe`), toggleable between absolute counts and within-group conditional percentages.
    - **Contingency Heatmap:** Multi-metric heatmap with original continuous color scales (`Blues` for observed counts, `Viridis` for expected frequencies, and `RdBu_r` for standardized residuals).
-7. **Section 7 — Downloadable Statistical Analysis Report:**
+6. **Section 6 — Downloadable Statistical Analysis Report:**
    - One-click downloads for full text audit reports (`.txt`), observed contingency tables (`.csv`), and expected matrices (`.csv`).
 
 ---

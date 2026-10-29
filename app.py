@@ -548,19 +548,11 @@ def generate_text_report(
     excluded_records,
     observed_df,
     expected_df,
-    residuals_df,
     chi2_stat,
     dof,
     p_value,
     alpha,
-    critical_val,
-    decision,
-    cramers_v,
-    effect_label,
-    cochran_valid,
-    cells_below_5_pct,
-    min_expected,
-    alt_test_notes=""
+    decision
 ):
     """Generate a clean, structured plaintext report for documentation export."""
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -595,46 +587,20 @@ def generate_text_report(
     report.append("-" * 78)
     report.append(expected_df.round(4).to_string())
     report.append("")
-    report.append("5. STANDARDIZED PEARSON RESIDUALS (r_ij)")
-    report.append("-" * 78)
-    report.append(residuals_df.round(4).to_string())
-    report.append("Note: Standardized residuals |r_ij| > 2.0 indicate cells deviating significantly")
-    report.append("      from independence at roughly the 95% confidence level.")
-    report.append("")
-    report.append("6. TEST STATISTICS & DECISION METRICS")
+    report.append("5. TEST STATISTICS & DECISION METRICS")
     report.append("-" * 78)
     report.append(f"Chi-Square Statistic (X^2)  : {chi2_stat:.5f}")
     report.append(f"Degrees of Freedom (df)     : {dof}")
-    report.append(f"Critical Value (X^2_crit)   : {critical_val:.5f}")
     report.append(f"Calculated P-Value          : {p_value:.6e}")
     report.append(f"Decision                    : {decision.upper()}")
-    report.append("")
-    report.append("7. EFFECT SIZE (Cramer's V)")
-    report.append("-" * 78)
-    report.append(f"Cramer's V Value            : {cramers_v:.5f}")
-    report.append(f"Association Magnitude       : {effect_label}")
-    report.append("")
-    report.append("8. COCHRAN'S (1954) ASSUMPTION AUDIT")
-    report.append("-" * 78)
-    cochran_status = "PASSED (Satisfied)" if cochran_valid else "WARNING (Assumptions Violated)"
-    report.append(f"Cochran Rule Status         : {cochran_status}")
-    report.append(f"Minimum Expected Cell Count : {min_expected:.4f} (Rule: >= 1.0)")
-    report.append(f"Cells with Count < 5.0      : {cells_below_5_pct:.2f}% (Rule: <= 20.0%)")
-    if not cochran_valid:
-        report.append("Advisory: Asymptotic Chi-Square approximation may inflate Type I error rates.")
-        report.append("          Consolidate sparse categories or refer to exact tests.")
-    if alt_test_notes:
-        report.append("")
-        report.append("Small-Sample Alternative Tests:")
-        report.append(alt_test_notes)
     report.append("")
     report.append("=" * 78)
     report.append("ACADEMIC AUDIT VERIFICATION")
     report.append("-" * 78)
     report.append(
         "This report was automatically compiled by the Feature Independence\n"
-        "Validator dashboard. All statistical computations, contingency distributions,\n"
-        "and diagnostic validity checks are finalized and verified.\n\n"
+        "Validator dashboard. All statistical computations and contingency\n"
+        "distributions are finalized and verified.\n\n"
         "Associated Export Files:\n"
         f"  - Full Analysis Report (.txt)        : ChiSquare_Report_{var_x}_vs_{var_y}.txt\n"
         f"  - Observed Contingency Table (.csv)  : Contingency_Table_{var_x}_vs_{var_y}.csv\n"
@@ -748,13 +714,6 @@ with st.sidebar.expander("Theoretical Guide & Key Formulas", expanded=False):
     **Decision Rule:**
     - If **$p\text{-value} < \alpha$**, Reject $H_0$ (Association detected).
     - Otherwise, Fail to Reject $H_0$ (Independence not rejected).
-    
-    **Cochran's Rule (1954):**
-    - $E_{ij} \ge 1.0$ for all cells.
-    - At least 80% of cells have $E_{ij} \ge 5.0$.
-    
-    **Cramér's V:**
-    $$V = \sqrt{\frac{\chi^2}{N \times \min(r - 1, c - 1)}}$$
     """)
 
 
@@ -906,130 +865,89 @@ def process_feature(df, feature_name, col_key_suffix):
         render_notice(f"Variable <code>{feature_name}</code> has constant values ({c_min}). Cannot discretize a constant feature.", title="CONSTANT FEATURE", style="highlight")
         return col_series.astype(str), "[Constant numerical feature]"
     
-    render_notice(f"Variable <code>{feature_name}</code> is numerical (Range: {c_min:.1f} to {c_max:.1f}). Discretize into categories below:", title="FEATURE DETECTED")
+    render_notice(f"Variable <code>{feature_name}</code> is numerical (Range: {c_min:.1f} to {c_max:.1f}). Discretize into categories using configurable cutoffs below:", title="FEATURE DETECTED")
     
-    bin_method = st.radio(
-        f"Binning Method for `{feature_name}`:",
-        options=["Configurable Cutoffs (Custom)", "Quantile Bins (Equal Frequency)", "Equal Width Intervals"],
-        key=f"bin_method_{col_key_suffix}",
-        horizontal=True
+    num_bins = st.selectbox(
+        f"Number of categories for `{feature_name}`:",
+        options=[2, 3, 4],
+        index=1,
+        key=f"num_bins_{col_key_suffix}",
+        help="Note: Using 2 categories yields larger cell frequencies, which helps satisfy Cochran's assumptions on small samples."
     )
     
-    if bin_method == "Configurable Cutoffs (Custom)":
-        num_bins = st.selectbox(
-            f"Number of categories for `{feature_name}`:",
-            options=[2, 3, 4],
-            index=1,
-            key=f"num_bins_{col_key_suffix}",
-            help="Note: Using 2 categories yields larger cell frequencies, which helps satisfy Cochran's assumptions on small samples."
+    # Domain presets
+    presets = {}
+    if feature_name == "Attendance" and c_max <= 100:
+        if num_bins == 3:
+            presets = {"cut1": 70.0, "cut2": 85.0}
+        elif num_bins == 2:
+            presets = {"cut1": 75.0}
+    elif feature_name == "Study_Hours":
+        if num_bins == 3:
+            presets = {"cut1": 2.5, "cut2": 4.0}
+    elif "Marks" in feature_name or "Score" in feature_name:
+        if num_bins == 3:
+            presets = {"cut1": 65.0, "cut2": 80.0}
+    
+    if num_bins == 2:
+        default_cut = presets.get("cut1", round(float(col_series.median()), 1))
+        cut1 = st.slider(
+            f"Boundary Cutoff for `{feature_name}`:",
+            min_value=float(c_min),
+            max_value=float(c_max),
+            value=float(np.clip(default_cut, c_min, c_max)),
+            key=f"cut1_{col_key_suffix}"
         )
+        bins = [-np.inf, cut1, np.inf]
+        labels = [f"Low (<{cut1:.1f})", f"High (≥{cut1:.1f})"]
         
-        # Domain presets
-        presets = {}
-        if feature_name == "Attendance" and c_max <= 100:
-            if num_bins == 3:
-                presets = {"cut1": 70.0, "cut2": 85.0}
-            elif num_bins == 2:
-                presets = {"cut1": 75.0}
-        elif feature_name == "Study_Hours":
-            if num_bins == 3:
-                presets = {"cut1": 2.5, "cut2": 4.0}
-        elif "Marks" in feature_name or "Score" in feature_name:
-            if num_bins == 3:
-                presets = {"cut1": 65.0, "cut2": 80.0}
+    elif num_bins == 3:
+        p33 = float(np.percentile(col_series.dropna(), 33))
+        p66 = float(np.percentile(col_series.dropna(), 66))
+        default_cut1 = presets.get("cut1", round(p33, 1))
+        default_cut2 = presets.get("cut2", round(p66, 1))
+        if default_cut1 >= default_cut2:
+            default_cut2 = default_cut1 + 1.0
         
-        if num_bins == 2:
-            default_cut = presets.get("cut1", round(float(col_series.median()), 1))
-            cut1 = st.slider(
-                f"Boundary Cutoff for `{feature_name}`:",
-                min_value=float(c_min),
-                max_value=float(c_max),
-                value=float(np.clip(default_cut, c_min, c_max)),
-                key=f"cut1_{col_key_suffix}"
+        c_cut1, c_cut2 = st.columns(2)
+        with c_cut1:
+            cut1 = st.number_input(
+                f"Cutoff 1 (Low/Medium):",
+                value=float(default_cut1),
+                key=f"cut1_3_{col_key_suffix}"
             )
-            bins = [-np.inf, cut1, np.inf]
-            labels = [f"Low (<{cut1:.1f})", f"High (≥{cut1:.1f})"]
-            
-        elif num_bins == 3:
-            p33 = float(np.percentile(col_series.dropna(), 33))
-            p66 = float(np.percentile(col_series.dropna(), 66))
-            default_cut1 = presets.get("cut1", round(p33, 1))
-            default_cut2 = presets.get("cut2", round(p66, 1))
-            if default_cut1 >= default_cut2:
-                default_cut2 = default_cut1 + 1.0
-            
-            c_cut1, c_cut2 = st.columns(2)
-            with c_cut1:
-                cut1 = st.number_input(
-                    f"Cutoff 1 (Low/Medium):",
-                    value=float(default_cut1),
-                    key=f"cut1_3_{col_key_suffix}"
-                )
-            with c_cut2:
-                cut2 = st.number_input(
-                    f"Cutoff 2 (Medium/High):",
-                    value=float(default_cut2),
-                    key=f"cut2_3_{col_key_suffix}"
-                )
-            if cut1 >= cut2:
-                render_notice("Cutoff 1 must be strictly less than Cutoff 2. Cutoff 2 has been adjusted.", title="CUTOFF ADJUSTMENT")
-                cut2 = cut1 + 1.0
-            bins = [-np.inf, cut1, cut2, np.inf]
-            labels = [f"Low (<{cut1:.1f})", f"Medium ({cut1:.1f}-{cut2:.1f})", f"High (≥{cut2:.1f})"]
-            
-        else: # 4 bins
-            p25 = float(np.percentile(col_series.dropna(), 25))
-            p50 = float(np.percentile(col_series.dropna(), 50))
-            p75 = float(np.percentile(col_series.dropna(), 75))
-            c_cut1, c_cut2, c_cut3 = st.columns(3)
-            with c_cut1:
-                cut1 = st.number_input(f"Cutoff 1:", value=round(p25, 1), key=f"cut1_4_{col_key_suffix}")
-            with c_cut2:
-                cut2 = st.number_input(f"Cutoff 2:", value=round(p50, 1), key=f"cut2_4_{col_key_suffix}")
-            with c_cut3:
-                cut3 = st.number_input(f"Cutoff 3:", value=round(p75, 1), key=f"cut3_4_{col_key_suffix}")
-            if cut1 >= cut2:
-                cut2 = cut1 + 0.5
-            if cut2 >= cut3:
-                cut3 = cut2 + 0.5
-            bins = [-np.inf, cut1, cut2, cut3, np.inf]
-            labels = [f"Tier 1 (<{cut1:.1f})", f"Tier 2 ({cut1:.1f}-{cut2:.1f})", f"Tier 3 ({cut2:.1f}-{cut3:.1f})", f"Tier 4 (≥{cut3:.1f})"]
-            
-        binned = pd.cut(col_series, bins=bins, labels=labels, right=False)
-        bin_desc = f"[Binned into {num_bins} categories: {', '.join(labels)}]"
+        with c_cut2:
+            cut2 = st.number_input(
+                f"Cutoff 2 (Medium/High):",
+                value=float(default_cut2),
+                key=f"cut2_3_{col_key_suffix}"
+            )
+        if cut1 >= cut2:
+            render_notice("Cutoff 1 must be strictly less than Cutoff 2. Cutoff 2 has been adjusted.", title="CUTOFF ADJUSTMENT")
+            cut2 = cut1 + 1.0
+        bins = [-np.inf, cut1, cut2, np.inf]
+        labels = [f"Low (<{cut1:.1f})", f"Medium ({cut1:.1f}-{cut2:.1f})", f"High (≥{cut2:.1f})"]
         
-    elif bin_method == "Quantile Bins (Equal Frequency)":
-        num_q = st.selectbox(
-            f"Quantile Divisions for `{feature_name}`:",
-            options=[2, 3, 4],
-            index=1,
-            format_func=lambda x: f"{x} Quantiles ({'Median split' if x==2 else 'Tertiles' if x==3 else 'Quartiles'})",
-            key=f"num_q_{col_key_suffix}"
-        )
-        if num_q == 2:
-            q_labels = ["Low (Q1)", "High (Q2)"]
-        elif num_q == 3:
-            q_labels = ["Low (T1)", "Medium (T2)", "High (T3)"]
-        else:
-            q_labels = ["Q1 (Lowest)", "Q2", "Q3", "Q4 (Highest)"]
-        try:
-            binned = pd.qcut(col_series, q=num_q, labels=q_labels, duplicates='drop')
-            bin_desc = f"[Quantile binned: {num_q} bins]"
-        except Exception as e:
-            render_notice(f"Could not compute equal quantiles ({e}). Using equal-width bins instead.", title="QUANTILE FALLBACK")
-            binned = pd.cut(col_series, bins=num_q, labels=q_labels, right=False)
-            bin_desc = f"[Equal width binned: {num_q} bins]"
-            
-    else: # Equal Width Intervals
-        num_w = st.selectbox(
-            f"Number of Equal-Width Intervals for `{feature_name}`:",
-            options=[2, 3, 4],
-            index=1,
-            key=f"num_w_{col_key_suffix}"
-        )
-        labels = [f"Interval {i+1}" for i in range(num_w)]
-        binned = pd.cut(col_series, bins=num_w, labels=labels, right=False)
-        bin_desc = f"[Equal width binned: {num_w} intervals]"
+    else: # 4 bins
+        p25 = float(np.percentile(col_series.dropna(), 25))
+        p50 = float(np.percentile(col_series.dropna(), 50))
+        p75 = float(np.percentile(col_series.dropna(), 75))
+        c_cut1, c_cut2, c_cut3 = st.columns(3)
+        with c_cut1:
+            cut1 = st.number_input(f"Cutoff 1:", value=round(p25, 1), key=f"cut1_4_{col_key_suffix}")
+        with c_cut2:
+            cut2 = st.number_input(f"Cutoff 2:", value=round(p50, 1), key=f"cut2_4_{col_key_suffix}")
+        with c_cut3:
+            cut3 = st.number_input(f"Cutoff 3:", value=round(p75, 1), key=f"cut3_4_{col_key_suffix}")
+        if cut1 >= cut2:
+            cut2 = cut1 + 0.5
+        if cut2 >= cut3:
+            cut3 = cut2 + 0.5
+        bins = [-np.inf, cut1, cut2, cut3, np.inf]
+        labels = [f"Tier 1 (<{cut1:.1f})", f"Tier 2 ({cut1:.1f}-{cut2:.1f})", f"Tier 3 ({cut2:.1f}-{cut3:.1f})", f"Tier 4 (≥{cut3:.1f})"]
+        
+    binned = pd.cut(col_series, bins=bins, labels=labels, right=False)
+    bin_desc = f"[Configurable cutoffs: {num_bins} categories ({', '.join(labels)})]"
         
     counts = binned.value_counts().sort_index()
     dist_str = " | ".join([f"**{cat}**: {count}" for cat, count in counts.items()])
@@ -1107,31 +1025,9 @@ observed_with_margins = pd.crosstab(
 st.divider()
 st.markdown('<div class="section-title"><span class="section-num">3</span> Observed Contingency Table (Cross-Tabulation)</div>', unsafe_allow_html=True)
 
-tab_obs1, tab_obs2 = st.tabs(["Observed Counts with Marginal Totals", "Proportions & Relative Frequencies (%)"])
-
-with tab_obs1:
-    st.write(f"Cross-tabulation matrix $O_{{ij}}$ showing joint frequencies for **{feature_x}** (rows) vs **{feature_y}** (columns):")
-    st.dataframe(observed_with_margins, use_container_width=True)
-    st.caption(f"Dimensions: {observed_crosstab.shape[0]} rows × {observed_crosstab.shape[1]} columns. Total sample size N = {analyzed_count}.")
-
-with tab_obs2:
-    prop_type = st.radio(
-        "Display Proportions As:",
-        options=["Row Percentages (%)", "Column Percentages (%)", "Total Table Percentages (%)"],
-        horizontal=True
-    )
-    if prop_type == "Row Percentages (%)":
-        row_props = pd.crosstab(clean_df[feature_x], clean_df[feature_y], normalize='index') * 100
-        st.dataframe(row_props.round(2).astype(str) + "%", use_container_width=True)
-        st.caption("Each row sums to 100.0%. Shows the conditional distribution of Feature Y given Feature X.")
-    elif prop_type == "Column Percentages (%)":
-        col_props = pd.crosstab(clean_df[feature_x], clean_df[feature_y], normalize='columns') * 100
-        st.dataframe(col_props.round(2).astype(str) + "%", use_container_width=True)
-        st.caption("Each column sums to 100.0%. Shows the conditional distribution of Feature X given Feature Y.")
-    else:
-        tot_props = pd.crosstab(clean_df[feature_x], clean_df[feature_y], normalize='all') * 100
-        st.dataframe(tot_props.round(2).astype(str) + "%", use_container_width=True)
-        st.caption("All cells sum to 100.0%. Shows the joint relative frequency distribution.")
+st.write(f"Cross-tabulation matrix $O_{{ij}}$ showing joint frequencies for **{feature_x}** (rows) vs **{feature_y}** (columns):")
+st.dataframe(observed_with_margins, use_container_width=True)
+st.caption(f"Dimensions: {observed_crosstab.shape[0]} rows × {observed_crosstab.shape[1]} columns. Total sample size N = {analyzed_count}.")
 
 csv_crosstab = observed_with_margins.to_csv().encode('utf-8')
 st.download_button(
@@ -1159,23 +1055,6 @@ expected_df = pd.DataFrame(
 # Standardized Pearson residuals: (O - E) / sqrt(E)
 residuals_df = (observed_crosstab - expected_df) / np.sqrt(expected_df)
 
-# Critical value
-critical_val = stats.chi2.ppf(1 - alpha, dof)
-
-# Effect size: Cramer's V
-r_dim, c_dim = observed_crosstab.shape
-cramers_v = compute_cramers_v(chi2_stat, analyzed_count, r_dim, c_dim)
-effect_label, effect_desc = interpret_cramers_v(cramers_v, r_dim, c_dim)
-
-# Cochran's (1954) criteria validation:
-min_expected = float(expected_matrix.min())
-cells_below_1 = int((expected_matrix < 1.0).sum())
-cells_below_5 = int((expected_matrix < 5.0).sum())
-total_cells = int(expected_matrix.size)
-cells_below_5_pct = (cells_below_5 / total_cells) * 100.0
-
-cochran_valid = (cells_below_1 == 0) and (cells_below_5_pct <= 20.0)
-
 # Statistical Decision
 reject_null = p_value < alpha
 if reject_null:
@@ -1185,25 +1064,11 @@ else:
     decision_text = "Fail to Reject Null Hypothesis (H₀)"
     decision_status = "No Statistically Significant Association"
 
-# Alternative exact tests if 2x2
-is_2x2 = (r_dim == 2 and c_dim == 2)
-p_fisher = None
-chi2_yates = None
-p_yates = None
-
-if is_2x2:
-    try:
-        fisher_res = stats.fisher_exact(observed_crosstab.values)
-        p_fisher = float(fisher_res.pvalue)
-        chi2_yates, p_yates, _, _ = stats.chi2_contingency(observed_crosstab, correction=True)
-    except Exception:
-        pass
-
 st.divider()
 st.markdown('<div class="section-title"><span class="section-num">4</span> Hypothesis Testing & Chi-Square Results</div>', unsafe_allow_html=True)
 
 # Metrics Cards
-m_col1, m_col2, m_col3, m_col4, m_col5 = st.columns(5)
+m_col1, m_col2, m_col3 = st.columns(3)
 with m_col1:
     st.metric("Chi-Square (χ²)", f"{chi2_stat:.4f}")
 with m_col2:
@@ -1211,23 +1076,17 @@ with m_col2:
     st.metric("P-Value", p_format)
 with m_col3:
     st.metric("Degrees of Freedom (df)", dof)
-with m_col4:
-    st.metric("Critical Value (χ²_crit)", f"{critical_val:.4f}")
-with m_col5:
-    st.metric("Cramer's V (Effect)", f"{cramers_v:.4f}")
 
 # Monochrome Hypothesis Decision Panel
 decision_header = f"STATISTICAL DECISION: {decision_text.upper()}"
 if reject_null:
     decision_detail = (
-        f"The p-value (<strong>{p_format}</strong>) is strictly below the significance threshold α = {alpha}, "
-        f"and the test statistic (<strong>χ² = {chi2_stat:.4f}</strong>) exceeds the critical value threshold (<strong>χ²_crit = {critical_val:.4f}</strong>). "
+        f"The p-value (<strong>{p_format}</strong>) is strictly below the significance threshold α = {alpha}. "
         f"There is statistically significant evidence of mutual association between <code>{feature_x}</code> and <code>{feature_y}</code>."
     )
 else:
     decision_detail = (
-        f"The p-value (<strong>{p_format}</strong>) is greater than or equal to the significance threshold α = {alpha}, "
-        f"and the test statistic (<strong>χ² = {chi2_stat:.4f}</strong>) does not exceed the critical threshold (<strong>χ²_crit = {critical_val:.4f}</strong>). "
+        f"The p-value (<strong>{p_format}</strong>) is greater than or equal to the significance threshold α = {alpha}. "
         f"We fail to reject the null hypothesis; observed joint frequency variations between <code>{feature_x}</code> and <code>{feature_y}</code> are consistent with random sampling variability."
     )
 
@@ -1240,135 +1099,13 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-col_warn1, col_warn2 = st.columns(2)
-with col_warn1:
-    st.caption(
-        "**Note on Causation:** Association does not imply causation. A significant Chi-Square test indicates "
-        "that category distributions differ, but does not prove that one variable causes changes in the other."
-    )
-with col_warn2:
-    st.caption(
-        "**Note on Independence:** Failing to reject H₀ does not prove absolute mathematical independence; "
-        "it only indicates that any association present was undetectable at this sample size and significance level."
-    )
-
 
 # ==============================================================================
-# SECTION 5: ASSUMPTION AUDIT & DIAGNOSTIC TABLES
+# SECTION 5: INTERACTIVE STATISTICAL VISUALIZATIONS
 # ==============================================================================
 
 st.divider()
-st.markdown('<div class="section-title"><span class="section-num">5</span> Statistical Assumption Audit (Cochran\'s Rule) & Diagnostics</div>', unsafe_allow_html=True)
-
-alt_report_notes = ""
-
-if cochran_valid:
-    st.markdown(f"""
-    <div class="mono-box">
-        <div class="mono-box-title">ASSUMPTION AUDIT: COCHRAN'S CRITERIA SATISFIED</div>
-        <div class="mono-box-desc">
-            Minimum expected cell frequency is <strong>{min_expected:.2f}</strong> (≥ 1.0), and 
-            <strong>{cells_below_5} of {total_cells} cells ({cells_below_5_pct:.1f}%)</strong> have expected frequency &lt; 5.0 (≤ 20.0%). 
-            The continuous asymptotic Chi-Square distribution approximation is statistically valid and reliable.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-else:
-    st.markdown(f"""
-    <div class="mono-box-highlight">
-        <div class="mono-box-title">ASSUMPTION AUDIT: COCHRAN'S RULE WARNING (SPARSE CELLS)</div>
-        <div class="mono-box-desc" style="margin-bottom: 0.4rem;">
-            Pearson's Chi-Square test relies on asymptotic approximation. Cochran (1954) established the following validity criteria:
-        </div>
-        <ul style="color: {text_secondary}; font-size: 0.88rem; margin-bottom: 0.45rem; padding-left: 1.25rem;">
-            <li>No expected cell frequency should be less than 1.0 (Current minimum: <strong>{min_expected:.2f}</strong>).</li>
-            <li>No more than 20% of expected cell frequencies should be less than 5.0 (Current: <strong>{cells_below_5_pct:.1f}%</strong> — {cells_below_5} of {total_cells} cells).</li>
-        </ul>
-        <div class="mono-box-desc" style="font-size: 0.84rem; color: {text_secondary};">
-            <em>Diagnostic Precaution:</em> Small expected frequencies inflate Type I error rates. The reported p-value should be interpreted with diagnostic caution.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Practical remedies
-    if is_2x2 and p_fisher is not None:
-        p_fisher_fmt = f"{p_fisher:.4e}" if p_fisher < 0.0001 else f"{p_fisher:.4f}"
-        p_yates_fmt = f"{p_yates:.4e}" if p_yates < 0.0001 else f"{p_yates:.4f}"
-        render_notice(
-            f"Because this is a 2×2 contingency table, you can rely on **Fisher's Exact Test**, which computes the exact hypergeometric probability without asymptotic assumptions: "
-            f"**Fisher's Exact p-value = {p_fisher_fmt}** (Yates' corrected χ² = {chi2_yates:.4f}, p = {p_yates_fmt}).",
-            title="EXACT TEST ALTERNATIVE FOR 2×2 TABLE"
-        )
-        p_fisher_rep = f"{p_fisher:.6e}" if p_fisher < 0.0001 else f"{p_fisher:.6f}"
-        p_yates_rep = f"{p_yates:.6e}" if p_yates < 0.0001 else f"{p_yates:.6f}"
-        alt_report_notes = (
-            f"Fisher's Exact Test p-value : {p_fisher_rep}\n"
-            f"Yates' Corrected Chi-Square : {chi2_yates:.4f} (p = {p_yates_rep})"
-        )
-    else:
-        render_notice(
-            "(1) Consolidate sparse categories into fewer categories (e.g. choose 2 bins for numerical variables in Section 2); "
-            "(2) Evaluate the larger 350-record Demonstration survey dataset from the sidebar; "
-            "(3) In your college micro-project presentation, explain that small sample sizes naturally trigger Cochran warnings, demonstrating statistical rigor!",
-            title="RECOMMENDED PRACTICAL REMEDIES"
-        )
-
-# Diagnostic Tabs
-exp_tabs = st.tabs([
-    "Expected Frequencies Matrix (E_ij)",
-    "Standardized Residuals (r_ij)",
-    "Effect Size Interpretation (Cramér's V)",
-    "Alternative Tests & Small-Sample Notes"
-])
-
-with exp_tabs[0]:
-    st.write("Expected frequencies calculated under the theoretical assumption of statistical independence:")
-    st.markdown(r"$$E_{ij} = \frac{R_i \times C_j}{N}$$")
-    st.dataframe(expected_df.round(2), use_container_width=True)
-    st.caption("Each cell represents the theoretical expectation count under H₀.")
-
-with exp_tabs[1]:
-    st.write("Standardized Pearson residuals identify which category combinations deviate most from expectation:")
-    st.markdown(r"$$r_{ij} = \frac{O_{ij} - E_{ij}}{\sqrt{E_{ij}}}$$")
-    st.dataframe(residuals_df.round(2), use_container_width=True)
-    st.caption("Residuals with absolute value > 2.0 indicate cells contributing significantly to the association at ~95% confidence.")
-
-with exp_tabs[2]:
-    st.write("**Cramér's V Effect Size Measure:**")
-    st.markdown(r"$$V = \sqrt{\frac{\chi^2}{N \times \min(r - 1, c - 1)}}$$")
-    v_c1, v_c2 = st.columns([1, 2])
-    with v_c1:
-        st.metric("Cramér's V Value", f"{cramers_v:.4f}")
-        st.markdown(f"**Classification:** `{effect_label}`")
-    with v_c2:
-        st.write(f"**Interpretation:** {effect_desc}")
-        st.caption("Unlike the p-value (which shrinks with large N), Cramér's V measures the true practical magnitude of association between 0 (none) and 1 (perfect).")
-
-with exp_tabs[3]:
-    st.write("**Small-Sample & Alternative Testing Diagnostics:**")
-    if is_2x2 and p_fisher is not None:
-        p_fisher_disp = f"{p_fisher:.4e}" if p_fisher < 0.0001 else f"{p_fisher:.4f}"
-        p_yates_disp = f"{p_yates:.4e}" if p_yates < 0.0001 else f"{p_yates:.4f}"
-        c_alt1, c_alt2 = st.columns(2)
-        with c_alt1:
-            st.metric("Fisher's Exact Test (p-value)", p_fisher_disp)
-            st.caption("Exact conditional hypergeometric test. Recommended when Cochran's assumptions fail on 2×2 tables.")
-        with c_alt2:
-            st.metric("Yates' Continuity-Corrected χ²", f"{chi2_yates:.4f}")
-            st.caption(f"Continuity-adjusted p-value = {p_yates_disp}")
-    else:
-        st.write(
-            "For contingency tables larger than 2×2 where Cochran's rule fails, exact tests require extensive permutations. "
-            "The standard statistical remedy is category consolidation (merging infrequent categories into an 'Other' group or reducing bin counts)."
-        )
-
-
-# ==============================================================================
-# SECTION 6: INTERACTIVE STATISTICAL VISUALIZATIONS
-# ==============================================================================
-
-st.divider()
-st.markdown('<div class="section-title"><span class="section-num">6</span> Interactive Statistical Visualizations</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title"><span class="section-num">5</span> Interactive Statistical Visualizations</div>', unsafe_allow_html=True)
 
 vis_col1, vis_col2 = st.columns(2)
 
@@ -1501,11 +1238,11 @@ with vis_col2:
 
 
 # ==============================================================================
-# SECTION 7: DOWNLOADABLE ANALYSIS REPORT & SUMMARY
+# SECTION 6: DOWNLOADABLE ANALYSIS REPORT & SUMMARY
 # ==============================================================================
 
 st.divider()
-st.markdown('<div class="section-title"><span class="section-num">7</span> Downloadable Statistical Analysis Report</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title"><span class="section-num">6</span> Downloadable Statistical Analysis Report</div>', unsafe_allow_html=True)
 
 full_report_text = generate_text_report(
     project_title="Feature Independence Validation Using Chi-Square Test",
@@ -1519,19 +1256,11 @@ full_report_text = generate_text_report(
     excluded_records=excluded_count,
     observed_df=observed_with_margins,
     expected_df=expected_df,
-    residuals_df=residuals_df,
     chi2_stat=chi2_stat,
     dof=dof,
     p_value=p_value,
     alpha=alpha,
-    critical_val=critical_val,
-    decision=decision_text,
-    cramers_v=cramers_v,
-    effect_label=effect_label,
-    cochran_valid=cochran_valid,
-    cells_below_5_pct=cells_below_5_pct,
-    min_expected=min_expected,
-    alt_test_notes=alt_report_notes
+    decision=decision_text
 )
 
 rep_col1, rep_col2 = st.columns([2, 1])
